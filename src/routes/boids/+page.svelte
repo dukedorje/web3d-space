@@ -398,6 +398,7 @@
 		<input id="boid-count" type="range" min="10" max="2000" step="10" bind:value={boidCount} />
 		<span class="value">{boidCount}</span>
 	</div>
+	<a href="/how-it-works" class="how-it-works-link">How It Works →</a>
 </div>
 
 <div class="personality-panel">
@@ -534,6 +535,22 @@
 		text-align: right;
 		opacity: 0.9;
 	}
+
+	.how-it-works-link {
+		display: block;
+		margin-top: 0.4rem;
+		text-align: right;
+		font-size: 0.7rem;
+		color: #6af;
+		opacity: 0.7;
+		text-decoration: none;
+		transition: opacity 0.15s;
+	}
+
+	.how-it-works-link:hover {
+		opacity: 1;
+	}
+
 	.personality-panel {
 		position: fixed;
 		top: 1rem;
