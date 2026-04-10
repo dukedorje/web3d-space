@@ -109,7 +109,11 @@ export function createCamera(canvas: HTMLCanvasElement, options: CameraOptions =
 	}
 
 	function onClick() {
-		canvas.requestPointerLock();
+		if (locked) {
+			canvas.ownerDocument.exitPointerLock();
+		} else {
+			canvas.requestPointerLock();
+		}
 	}
 
 	function onPointerLockChange() {
