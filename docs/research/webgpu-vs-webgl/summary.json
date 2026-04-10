@@ -1,0 +1,46 @@
+{
+  "question": "What are the differences between WebGPU and WebGL for building realtime web browser graphics applications?",
+  "mode": "research",
+  "status": "complete",
+  "confidence": "high",
+  "executive_summary": "WebGPU is the successor to WebGL, offering dramatically better draw-call throughput (up to 20x), first-class compute shaders, and a modern explicit API modeled after Vulkan/Metal/DX12. However, WebGL retains near-universal browser and device support and a vastly larger tutorial ecosystem. For new projects in 2026 targeting modern browsers, WebGPU with a WebGL fallback via framework abstraction is the recommended default.",
+  "key_findings": [
+    {
+      "finding": "WebGPU delivers 10-35x draw-call throughput improvement over WebGL by moving validation to Pipeline State Object creation time, confirmed by multiple independent benchmarks.",
+      "confidence": "high",
+      "sources": ["hypotheses/h1-draw-call-perf/findings.md"]
+    },
+    {
+      "finding": "WebGPU has first-class compute shaders; WebGL has none. This is a binary capability gap that enables in-browser ML inference (15-17x faster than CPU WASM), million-particle simulations, and GPGPU workloads.",
+      "confidence": "high",
+      "sources": ["hypotheses/h2-compute-shaders/findings.md"]
+    },
+    {
+      "finding": "WebGL has near-universal browser/device support. WebGPU is available in Chrome 113+, Edge, and Safari 18.2+, but Firefox stable and older/low-end devices remain gaps.",
+      "confidence": "medium",
+      "sources": ["hypotheses/h1-draw-call-perf/findings.md", "hypotheses/h2-compute-shaders/findings.md", "hypotheses/h5-api-design/findings.md"]
+    },
+    {
+      "finding": "WebGPU's explicit API model (immutable pipelines, command buffers, error scopes) is harder to learn but produces more predictable, debuggable code than WebGL's mutable state machine.",
+      "confidence": "high",
+      "sources": ["hypotheses/h5-api-design/findings.md"]
+    },
+    {
+      "finding": "Framework abstraction (Three.js, Babylon.js) largely neutralizes raw API differences for application developers; the WebGPU vs WebGL choice is often a framework configuration decision.",
+      "confidence": "medium",
+      "sources": ["hypotheses/h1-draw-call-perf/findings.md", "hypotheses/h5-api-design/findings.md"]
+    }
+  ],
+  "open_questions": [
+    "Safari WebGPU performance parity with Chrome is unverified by benchmarks",
+    "iOS Safari WebGPU compute shader readiness in 2026 is unclear",
+    "Firefox stable WebGPU shipping timeline is unknown",
+    "Framework abstraction overhead for WebGPU backends has not been measured",
+    "WebGPU minimum viable hardware and performance on low-end mobile GPUs is undocumented"
+  ],
+  "contradictions": [],
+  "hypotheses_explored": 5,
+  "hypotheses_total": 5,
+  "verification_status": "PASS_WITH_WARNINGS",
+  "output_dir": "docs/research/webgpu-vs-webgl"
+}

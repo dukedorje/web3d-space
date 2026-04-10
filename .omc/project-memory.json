@@ -1,0 +1,336 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775804840954,
+  "projectRoot": "/Users/dukejones/work/Projects/Family/web3d-space",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "@playwright/test",
+        "version": "1.56.1",
+        "category": "testing"
+      },
+      {
+        "name": "@sveltejs/kit",
+        "version": "2.47.1",
+        "category": "fullstack"
+      },
+      {
+        "name": "playwright",
+        "version": "1.56.1",
+        "category": "testing"
+      },
+      {
+        "name": "svelte",
+        "version": "5.41.0",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "7.1.10",
+        "category": "build"
+      },
+      {
+        "name": "vitest",
+        "version": "4.0.5",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite dev",
+      "build": "vite build",
+      "preview": "vite preview",
+      "prepare": "svelte-kit sync || echo ''",
+      "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+      "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+      "format": "prettier --write .",
+      "lint": "prettier --check . && eslint .",
+      "test:unit": "vitest",
+      "test": "npm run test:unit -- --run && npm run test:e2e",
+      "test:e2e": "playwright test",
+      "db:push": "drizzle-kit push",
+      "db:generate": "drizzle-kit generate",
+      "db:migrate": "drizzle-kit migrate",
+      "db:studio": "drizzle-kit studio",
+      "storybook": "storybook dev -p 6006",
+      "build-storybook": "storybook build"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "src",
+      "static"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "e2e": {
+      "path": "e2e",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775804840918,
+      "keyFiles": [
+        "demo.test.ts"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 5,
+      "lastAccessed": 1775804840931,
+      "keyFiles": [
+        "app.css",
+        "app.d.ts",
+        "app.html",
+        "demo.spec.ts",
+        "hooks.server.ts"
+      ]
+    },
+    "static": {
+      "path": "static",
+      "purpose": "Static files",
+      "fileCount": 1,
+      "lastAccessed": 1775804840931,
+      "keyFiles": [
+        "robots.txt"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1775804840933,
+      "keyFiles": [
+        "index.ts"
+      ]
+    },
+    "src/routes": {
+      "path": "src/routes",
+      "purpose": "Route handlers",
+      "fileCount": 3,
+      "lastAccessed": 1775804840933,
+      "keyFiles": [
+        "+layout.svelte",
+        "+page.svelte",
+        "page.svelte.spec.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 16,
+      "lastAccessed": 1775806784543,
+      "type": "directory"
+    },
+    {
+      "path": "docs/prd-web3d-boids.md",
+      "accessCount": 10,
+      "lastAccessed": 1775832057980,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/synthesis.md",
+      "accessCount": 7,
+      "lastAccessed": 1775832057389,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 5,
+      "lastAccessed": 1775832062319,
+      "type": "file"
+    },
+    {
+      "path": "docs/vision.md",
+      "accessCount": 4,
+      "lastAccessed": 1775806241349,
+      "type": "file"
+    },
+    {
+      "path": "docs/sprints/001-webgpu-boids/discovery.md",
+      "accessCount": 4,
+      "lastAccessed": 1775832051944,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 4,
+      "lastAccessed": 1775832062214,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 3,
+      "lastAccessed": 1775806235454,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/+page.svelte",
+      "accessCount": 3,
+      "lastAccessed": 1775806776623,
+      "type": "file"
+    },
+    {
+      "path": "vite.config.ts",
+      "accessCount": 3,
+      "lastAccessed": 1775832056698,
+      "type": "file"
+    },
+    {
+      "path": "docs/sprints/001-webgpu-boids/requirements.md",
+      "accessCount": 3,
+      "lastAccessed": 1775832482411,
+      "type": "file"
+    },
+    {
+      "path": "docs/sprints/001-webgpu-boids/architecture-decisions.md",
+      "accessCount": 3,
+      "lastAccessed": 1775832482848,
+      "type": "file"
+    },
+    {
+      "path": "docs/sprints/001-webgpu-boids/sprint-scope.md",
+      "accessCount": 3,
+      "lastAccessed": 1775832483393,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/server/db/schema.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775806242494,
+      "type": "file"
+    },
+    {
+      "path": "src/app.html",
+      "accessCount": 2,
+      "lastAccessed": 1775806775152,
+      "type": "file"
+    },
+    {
+      "path": "src/app.d.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775806776091,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/index.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775806777147,
+      "type": "file"
+    },
+    {
+      "path": "src/hooks.server.ts",
+      "accessCount": 2,
+      "lastAccessed": 1775806777614,
+      "type": "file"
+    },
+    {
+      "path": "svelte.config.js",
+      "accessCount": 2,
+      "lastAccessed": 1775806787862,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/decomposition.md",
+      "accessCount": 1,
+      "lastAccessed": 1775804958704,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/hypotheses/h5-api-design/findings.md",
+      "accessCount": 1,
+      "lastAccessed": 1775805111612,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/hypotheses/h2-compute-shaders/findings.md",
+      "accessCount": 1,
+      "lastAccessed": 1775805137509,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/hypotheses/h1-draw-call-perf/findings.md",
+      "accessCount": 1,
+      "lastAccessed": 1775805160928,
+      "type": "file"
+    },
+    {
+      "path": "docs/research/webgpu-vs-webgl/summary.json",
+      "accessCount": 1,
+      "lastAccessed": 1775805401858,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/server/db/index.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775806224052,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1775806224748,
+      "type": "directory"
+    },
+    {
+      "path": "src/routes/demo/+page.svelte",
+      "accessCount": 1,
+      "lastAccessed": 1775806235660,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/demo/lucia/+page.svelte",
+      "accessCount": 1,
+      "lastAccessed": 1775806235905,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/+layout.svelte",
+      "accessCount": 1,
+      "lastAccessed": 1775806240546,
+      "type": "file"
+    },
+    {
+      "path": "docs/sprints/001-webgpu-boids/epics.md",
+      "accessCount": 1,
+      "lastAccessed": 1775832684822,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

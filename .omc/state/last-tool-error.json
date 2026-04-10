@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"ls /Users/dukejones/work/Morphist/aspects-webapp/docs/research/webgpu-vs-webgl/ 2>/dev/null; ls /Users/dukejones/work/Morphist/aspects-webapp/docs/research/webgpu-vs-webgl/hypotheses/ 2>/d...",
+  "error": "Exit code 1\n[rerun: b1]",
+  "timestamp": "2026-04-10T07:13:30.209Z",
+  "retry_count": 1
+}
