@@ -1,0 +1,57 @@
+{
+  "question": "What is the full pipeline from capturing images/LiDAR of a physical space to creating an immersive web-based 3D environment using Gaussian splatting and hybrid mesh+splat techniques? How do you extract meshes from splat scenes? What hybrid rendering approaches exist? How does LiDAR fit in?",
+  "mode": "engineering",
+  "status": "complete",
+  "confidence": "high",
+  "executive_summary": "The optimal pipeline uses a dual-branch architecture: COLMAP sparse reconstruction feeds both 3DGS splat training (for photorealistic appearance) and a separate mesh generation path (for structural geometry), combined in a WebGPU viewer via depth-composited hybrid rendering. iPhone/iPad LiDAR via Scaniverse provides the fastest single-tool path to both mesh and splat from one capture session. Mesh extraction from Gaussians is possible via SuGaR, 2DGS, or GOF, but traditional photogrammetry (Meshroom/OpenMVS) produces better-topology meshes for the structural layer. All extracted meshes require significant post-processing (decimation to 100K-300K triangles, format conversion to GLB with Draco compression) before web deployment. Hybrid rendering is supported by PlayCanvas, Three.js, and Babylon.js v9 using a standard depth compositing pattern.",
+  "key_findings": [
+    {
+      "finding": "Dual-branch pipeline (COLMAP to both 3DGS splats and photogrammetry mesh) produces the best hybrid result, with both branches sharing coordinate systems automatically",
+      "confidence": "high",
+      "sources": ["H1 findings (end-to-end pipeline)", "H7 findings (photogrammetry comparison)"]
+    },
+    {
+      "finding": "iPhone/iPad LiDAR via Scaniverse produces both mesh and splat from a single capture session in the same coordinate frame, with SPZ format reducing splat size 90%",
+      "confidence": "high",
+      "sources": ["H2 findings (LiDAR capture)"]
+    },
+    {
+      "finding": "Four mesh extraction methods exist (SuGaR, 2DGS, GOF, DN-Splatter) but all produce meshes with more artifacts and worse topology than traditional photogrammetry",
+      "confidence": "high",
+      "sources": ["H1 findings (end-to-end pipeline)", "H7 findings (photogrammetry comparison)"]
+    },
+    {
+      "finding": "Hybrid mesh+splat rendering uses depth compositing (mesh writes depth, splats depth-test-only) and is supported by PlayCanvas, Three.js (GaussianSplats3D, dvt3d/splat-mesh), and Babylon.js v9",
+      "confidence": "high",
+      "sources": ["H3 findings (hybrid rendering)"]
+    },
+    {
+      "finding": "Raw extracted meshes are NOT web-ready: they require 5-20x decimation, UV unwrapping for some methods, and GLB conversion with Draco compression for web delivery",
+      "confidence": "high",
+      "sources": ["H6 findings (web compatibility)"]
+    },
+    {
+      "finding": "KHR_gaussian_splatting glTF extension (ratified August 2025) enables storing splat data alongside mesh geometry in a single container; Cesium supports it as of March 2026",
+      "confidence": "medium",
+      "sources": ["H1 findings (end-to-end pipeline)"]
+    },
+    {
+      "finding": "Texture baking from Gaussian appearance to UV atlas produces washed-out colors, reinforcing the value of hybrid rendering where splats handle visual fidelity",
+      "confidence": "high",
+      "sources": ["H6 findings (web compatibility)"]
+    }
+  ],
+  "open_questions": [
+    "How to solve washed-out texture baking from Gaussians for mesh-only fallback rendering",
+    "What is the optimal boundary between mesh and splat content in a hybrid scene",
+    "Progressive loading strategies for combined mesh+splat assets in large environments",
+    "Mobile WebGPU performance budgets for combined mesh+splat rendering"
+  ],
+  "contradictions": [
+    "H1 implies mesh extraction produces usable output while H6 shows significant post-processing is required before web deployment"
+  ],
+  "hypotheses_explored": 5,
+  "hypotheses_total": 5,
+  "verification_status": "PASS_WITH_WARNINGS",
+  "output_dir": "docs/research/capture-to-immersive-pipeline"
+}

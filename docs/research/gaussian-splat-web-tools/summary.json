@@ -1,0 +1,48 @@
+{
+  "question": "What are the best tools and libraries for rendering and generating Gaussian splats in web-based 3D scenes? Focus on the PlayCanvas ecosystem and surrounding open-source tools that enable fast rendering and generation — ideally covering the full workflow from capture/generation to web display. Target is a SvelteKit web app using WebGPU.",
+  "mode": "research",
+  "status": "complete",
+  "confidence": "medium",
+  "executive_summary": "PlayCanvas Engine (v2.17.2, MIT) is the most production-ready WebGPU Gaussian splat renderer, with a full ecosystem from capture to web display via the SOG format (95% size reduction over PLY). However, no off-the-shelf library supports injecting an external GPUDevice, meaning integration into an existing WebGPU render loop requires adopting a full engine, forking a research implementation, or using multi-canvas CSS compositing. The open-source training pipeline (COLMAP + gsplat, Apache 2.0) is mature and matches proprietary quality within 1 dB PSNR. AI-based generation is limited to single-object prototyping and not production-ready for environments.",
+  "key_findings": [
+    {
+      "finding": "PlayCanvas Engine offers the most complete WebGPU Gaussian splat stack: SplatTransform CLI, SuperSplat editor, GSplatComponent runtime with LOD streaming, and the SOG format achieving 95% size reduction.",
+      "confidence": "high",
+      "sources": ["hypotheses/h1-playcanvas/findings.md"]
+    },
+    {
+      "finding": "All production-grade lightweight splat libraries (gsplat.js, Spark, GaussianSplats3D) are WebGL-only; no library supports injecting an external WebGPU GPUDevice.",
+      "confidence": "high",
+      "sources": ["hypotheses/h2-lightweight-libs/findings.md"]
+    },
+    {
+      "finding": "Four compositing strategies exist for integrating splats with an existing WebGPU scene, ranging from same-pass rendering (simplest) to depth pre-pass (full interpenetration), with multi-canvas CSS as the lowest-change option.",
+      "confidence": "medium",
+      "sources": ["hypotheses/h5-integration/findings.md"]
+    },
+    {
+      "finding": "gsplat (Apache 2.0) is the recommended trainer: fastest (20 min RTX 3060), lowest VRAM (4 GB), and within 0.3 dB PSNR of the non-commercially-licensed INRIA original.",
+      "confidence": "high",
+      "sources": ["hypotheses/h4-training-tools/findings.md"]
+    },
+    {
+      "finding": "AI-based Gaussian splat generation is functional for single-object prototyping (TRELLIS) but not production-ready for scenes; TRELLIS 2 dropped Gaussian output, suggesting industry trend away from generative 3DGS.",
+      "confidence": "medium",
+      "sources": ["hypotheses/h6-ai-generation/findings.md"]
+    }
+  ],
+  "open_questions": [
+    "What is PlayCanvas engine's bundle size overhead when used solely for splat rendering alongside an existing WebGPU renderer?",
+    "Is PlayCanvas Unified Splat Rendering (beta) stable enough for production use?",
+    "Can a minimal WebGPU splat renderer be built in ~500 lines WGSL+TS to accept an external GPUDevice?",
+    "Will SPZ format achieve glTF standardization, and should it be targeted over SOG?",
+    "Does Spark work with Three.js's experimental WebGPU renderer?"
+  ],
+  "contradictions": [
+    "TRELLIS is the best AI-to-3DGS tool, but TRELLIS 2 dropped Gaussian output entirely -- the industry may be moving away from generative Gaussian splats toward generative meshes."
+  ],
+  "hypotheses_explored": 5,
+  "hypotheses_total": 5,
+  "verification_status": "PASS",
+  "output_dir": "docs/research/gaussian-splat-web-tools"
+}
