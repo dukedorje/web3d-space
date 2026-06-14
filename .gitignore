@@ -30,3 +30,6 @@ vite.config.ts.timestamp-*
 storybook-static
 .omc
 .playwright-mcp
+
+# Asset pipeline scratch (e.g. logavatar checkpoint derivatives)
+.asset-staging
