@@ -1,8 +1,21 @@
 const ASSET_BASE = 'https://raw.githubusercontent.com/playcanvas/engine/main/examples/assets';
 const HF_CAKEWALK = 'https://huggingface.co/cakewalk/splat-data/resolve/main';
-const HF_DYLANEBERT = 'https://huggingface.co/datasets/dylanebert/3dgs/resolve/main';
 
 export type SceneCategory = 'environment' | 'object' | 'composite';
+
+export type SceneStatusFn = (phase: string) => void;
+
+export interface SplatSceneSetup {
+	assets: Record<string, any>;
+	build: () => void;
+	/** Optional loader for resources outside the default AssetListLoader (side-loaded
+	 *  JSON, binary, etc.). Runs in parallel with the asset load; report progress via onStatus. */
+	prepare?: (onStatus: SceneStatusFn) => Promise<void>;
+	/** Per-frame hook, called from the viewer movement loop with delta seconds and frame index. */
+	update?: (dt: number, frame: number) => void;
+	/** Teardown hook, called before the PlayCanvas app is destroyed. */
+	cleanup?: () => void;
+}
 
 export interface SplatScene {
 	slug: string;
@@ -11,7 +24,7 @@ export interface SplatScene {
 	category: SceneCategory;
 	tags: string[];
 	camera: { position: [number, number, number]; yaw: number; pitch: number };
-	setup: (pc: any, app: any) => { assets: Record<string, any>; build: () => void };
+	setup: (pc: any, app: any) => SplatSceneSetup;
 }
 
 // ── Environments ──────────────────────────────────────────────
@@ -45,13 +58,13 @@ const environments: SplatScene[] = [
 		slug: 'bonsai',
 		title: 'Bonsai',
 		description: 'A bonsai tree on a table — compact scene from the MipNeRF360 dataset.',
-		category: 'environment',
-		tags: ['splat', '~8 MB'],
-		camera: { position: [0, 1.5, 3], yaw: 180, pitch: -10 },
+		category: 'object',
+		tags: ['sog', '~3 MB'],
+		camera: { position: [4.9, 2.2, 0.1], yaw: 443, pitch: -28 },
 		setup(pc, app) {
 			const assets = {
 				bonsai: new pc.Asset('bonsai', 'gsplat', {
-					url: `${HF_DYLANEBERT}/bonsai/bonsai-7k-mini.splat`
+					url: '/splats/bonsai.sog'
 				})
 			};
 			return {
@@ -59,6 +72,7 @@ const environments: SplatScene[] = [
 				build() {
 					const e = new pc.Entity('bonsai');
 					e.addComponent('gsplat', { asset: assets.bonsai });
+					e.setLocalEulerAngles(180, 0, 0);
 					app.root.addChild(e);
 				}
 			};
@@ -75,7 +89,7 @@ const objects: SplatScene[] = [
 		description: 'A bicycle captured with gaussian splatting.',
 		category: 'object',
 		tags: ['sog', '~14 MB'],
-		camera: { position: [0, 1, 3], yaw: 180, pitch: -5 },
+		camera: { position: [3.9, 1.1, 0.5], yaw: 441, pitch: -12 },
 		setup(pc, app) {
 			const assets = {
 				bicycle: new pc.Asset('bicycle', 'gsplat', {
@@ -99,7 +113,7 @@ const objects: SplatScene[] = [
 		description: 'A single guitar captured with gaussian splatting.',
 		category: 'object',
 		tags: ['ply', '~1.5 MB'],
-		camera: { position: [0, 1, 2], yaw: 180, pitch: -10 },
+		camera: { position: [-2.8, -0.1, 2.6], yaw: 309, pitch: 23 },
 		setup(pc, app) {
 			const assets = {
 				guitar: new pc.Asset('guitar', 'gsplat', {
@@ -147,7 +161,7 @@ const objects: SplatScene[] = [
 		description: 'A detailed skull rendered with gaussian splatting.',
 		category: 'object',
 		tags: ['sog', '~5 MB'],
-		camera: { position: [0, 0.5, 2], yaw: 180, pitch: -5 },
+		camera: { position: [-1.1, 2.4, 0.7], yaw: -59, pitch: -32 },
 		setup(pc, app) {
 			const assets = {
 				skull: new pc.Asset('skull', 'gsplat', {
@@ -171,7 +185,7 @@ const objects: SplatScene[] = [
 		description: 'An ornate sculpture captured in a hotel lobby.',
 		category: 'object',
 		tags: ['ply', '~16 MB'],
-		camera: { position: [0, 1, 3], yaw: 180, pitch: -5 },
+		camera: { position: [4.7, 1.2, 0.7], yaw: 443, pitch: -13 },
 		setup(pc, app) {
 			const assets = {
 				sculpture: new pc.Asset('hotel-sculpture', 'gsplat', {
@@ -183,6 +197,7 @@ const objects: SplatScene[] = [
 				build() {
 					const e = new pc.Entity('hotel-sculpture');
 					e.addComponent('gsplat', { asset: assets.sculpture });
+					e.setLocalEulerAngles(180, 0, 0);
 					app.root.addChild(e);
 				}
 			};
@@ -193,12 +208,12 @@ const objects: SplatScene[] = [
 		title: 'Nike Shoe',
 		description: 'A sneaker — clean object capture from HuggingFace.',
 		category: 'object',
-		tags: ['splat', '~8 MB'],
-		camera: { position: [0, 0.5, 2], yaw: 180, pitch: -10 },
+		tags: ['sog', '~3 MB'],
+		camera: { position: [1.8, -2.1, 2.0], yaw: 388, pitch: -2 },
 		setup(pc, app) {
 			const assets = {
 				nike: new pc.Asset('nike', 'gsplat', {
-					url: `${HF_CAKEWALK}/nike.splat`
+					url: '/splats/nike.sog'
 				})
 			};
 			return {
@@ -206,6 +221,7 @@ const objects: SplatScene[] = [
 				build() {
 					const e = new pc.Entity('nike');
 					e.addComponent('gsplat', { asset: assets.nike });
+					e.setLocalEulerAngles(180, 0, 0);
 					app.root.addChild(e);
 				}
 			};
@@ -216,12 +232,12 @@ const objects: SplatScene[] = [
 		title: 'Plush Toy',
 		description: 'A plush toy — soft detail gaussian splat capture.',
 		category: 'object',
-		tags: ['splat', '~9 MB'],
-		camera: { position: [0, 0.5, 2], yaw: 180, pitch: -10 },
+		tags: ['sog', '~3.5 MB'],
+		camera: { position: [0.5, -2.2, 2.7], yaw: 369, pitch: 4 },
 		setup(pc, app) {
 			const assets = {
 				plush: new pc.Asset('plush', 'gsplat', {
-					url: `${HF_CAKEWALK}/plush.splat`
+					url: '/splats/plush.sog'
 				})
 			};
 			return {
@@ -229,6 +245,7 @@ const objects: SplatScene[] = [
 				build() {
 					const e = new pc.Entity('plush');
 					e.addComponent('gsplat', { asset: assets.plush });
+					e.setLocalEulerAngles(180, 0, 0);
 					app.root.addChild(e);
 				}
 			};

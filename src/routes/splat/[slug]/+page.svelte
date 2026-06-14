@@ -10,10 +10,22 @@
 	let loadStatus = $state('Initializing...');
 	let error: string | null = $state(null);
 	let pcState: PlayCanvasApp | null = null;
+	let debugInfo = $state('');
+	let showDebug = $state(false);
+
+	let sceneUpdate: ((dt: number, frame: number) => void) | undefined;
+	let sceneCleanup: (() => void) | undefined;
 
 	const scene = $derived(getScene($page.params.slug));
 
 	function doCleanup() {
+		try {
+			sceneCleanup?.();
+		} catch (err) {
+			console.error('[scene] cleanup threw', err);
+		}
+		sceneCleanup = undefined;
+		sceneUpdate = undefined;
 		if (pcState) {
 			pcState.app.destroy();
 			pcState = null;
@@ -47,13 +59,23 @@
 
 			loadStatus = 'Loading assets...';
 
-			const { assets, build } = scene.setup(pc, app);
+			const sceneSetup = scene.setup(pc, app);
+			const { assets, build, prepare } = sceneSetup;
+			sceneUpdate = sceneSetup.update;
+			sceneCleanup = sceneSetup.cleanup;
 
 			const assetListLoader = new pc.AssetListLoader(Object.values(assets), app.assets);
-			assetListLoader.load(() => {
+			const assetListPromise = new Promise<void>((resolve) => {
+				assetListLoader.load(() => resolve());
+			});
+			const preparePromise = prepare
+				? prepare((phase: string) => { loadStatus = phase; })
+				: Promise.resolve();
+
+			Promise.all([assetListPromise, preparePromise]).then(() => {
 				if (destroyed || !pcState) return;
 
-				loadStatus = 'Building scene...';
+				if (!prepare) loadStatus = 'Building scene...';
 
 				build();
 
@@ -122,17 +144,39 @@
 					speed = Math.max(minSpeed, Math.min(maxSpeed, speed));
 				}, { passive: false });
 
-				canvas.addEventListener('keydown', (e) => { keysDown.add(e.code); });
+				canvas.addEventListener('keydown', (e) => {
+					keysDown.add(e.code);
+					if (e.code === 'KeyC' && !e.ctrlKey && !e.metaKey) {
+						showDebug = !showDebug;
+					}
+					if (e.code === 'KeyP' && !e.ctrlKey && !e.metaKey) {
+						const pos = camera.getPosition();
+						const cfg = `camera: { position: [${pos.x.toFixed(1)}, ${pos.y.toFixed(1)}, ${pos.z.toFixed(1)}], yaw: ${Math.round(yaw)}, pitch: ${Math.round(pitch)} }`;
+						navigator.clipboard.writeText(cfg);
+						debugInfo = `Copied! ${cfg}`;
+					}
+				});
 				canvas.addEventListener('keyup', (e) => { keysDown.delete(e.code); });
 				if (!canvas.hasAttribute('tabindex')) {
 					canvas.setAttribute('tabindex', '0');
 				}
 
 				let lastTime = performance.now();
+				let frameIdx = 0;
 				function movementLoop() {
 					const now = performance.now();
 					const dt = (now - lastTime) / 1000;
 					lastTime = now;
+
+					if (sceneUpdate) {
+						try {
+							sceneUpdate(dt, frameIdx);
+						} catch (err) {
+							console.error('[scene] update threw', err);
+							sceneUpdate = undefined;
+						}
+					}
+					frameIdx++;
 
 					const moveAmount = speed * dt;
 					const pos = camera.getPosition().clone();
@@ -147,6 +191,9 @@
 					if (keysDown.has('ShiftLeft') || keysDown.has('ShiftRight') || keysDown.has('KeyQ')) pos.y -= moveAmount;
 
 					camera.setPosition(pos);
+					if (showDebug) {
+						debugInfo = `pos: [${pos.x.toFixed(1)}, ${pos.y.toFixed(1)}, ${pos.z.toFixed(1)}]  yaw: ${Math.round(yaw)}  pitch: ${Math.round(pitch)}  speed: ${speed.toFixed(1)}`;
+					}
 					requestAnimationFrame(movementLoop);
 				}
 				requestAnimationFrame(movementLoop);
@@ -206,8 +253,15 @@
 
 <a href="/splat" class="back-link">&larr; Back</a>
 
+{#if showDebug}
+	<div class="debug">
+		{debugInfo}
+		<br /><span class="hint">P = copy camera config &middot; C = toggle</span>
+	</div>
+{/if}
+
 <div class="info">
-	<span>Click to lock mouse &middot; WASD to move &middot; Q/E or Shift/Space for up/down &middot; Scroll to adjust speed</span>
+	<span>Click to lock mouse &middot; WASD to move &middot; Q/E or Shift/Space for up/down &middot; Scroll = speed &middot; C = debug</span>
 </div>
 
 <style>
@@ -267,6 +321,25 @@
 	.back-link:hover {
 		background: rgba(20, 30, 60, 0.9);
 		border-color: rgba(100, 160, 255, 0.6);
+	}
+
+	.debug {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		font-family: monospace;
+		font-size: 0.75rem;
+		color: #0f0;
+		background: rgba(0, 0, 0, 0.7);
+		border: 1px solid rgba(0, 255, 0, 0.3);
+		padding: 0.5rem 0.75rem;
+		z-index: 10;
+		white-space: pre;
+	}
+
+	.debug .hint {
+		color: #0a0;
+		font-size: 0.65rem;
 	}
 
 	.info {
