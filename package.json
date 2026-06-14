@@ -74,6 +74,8 @@
 	"dependencies": {
 		"@node-rs/argon2": "^2.0.2",
 		"better-sqlite3": "^12.4.1",
-		"gl-matrix": "^3.4.4"
+		"gl-matrix": "^3.4.4",
+		"playcanvas": "^2.19.7",
+		"shiki": "^4.2.0"
 	}
 }
