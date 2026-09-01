@@ -13,32 +13,20 @@ T4000 is the same **273 GB/s**, 64 GB, 70 W, 1× NVENC. Use it if the AD is 8–
 
 AGX Thor Developer Kit is the bring-up brick ($3,499–$5,499). Production is a T5000 SOM on a carrier with GMSL/HSB.
 
-## Thor is not Spark
+## Thor compute
 
-Both are 128 GB @ 273 GB/s. That is where the similarity ends.
+sm_110 Blackwell, 20 SMs, `tcgen05` + TMEM, 2,560 CUDA cores @ 1.575 GHz. Tensor cores: BF16 / FP16 ~258 TFLOPS, FP8 ~517 dense / 1035 sparse, FP4 ~1035 dense / 2070 sparse, INT8, TF32. FP32 CUDA ~8 TFLOPS. TensorRT CC 11.0 lists all of those precisions as supported.
 
-| | Thor T5000 | DGX Spark GB10 |
-|---|---|---|
-| Compute | **sm_110**, 20 SMs, `tcgen05` + TMEM | sm_121, ~48 SMs, `mma.sync`, no TMEM |
-| CUDA cores | 2,560 @ 1.575 GHz | 6,144 @ ~3 GHz |
-| BF16 tensor | **~258 TFLOPS** (first-class) | ~125 TFLOPS |
-| FP4 sparse | 2070 TFLOPS | 1000 TFLOPS |
-| FP32 CUDA | ~8 TFLOPS | ~31 TFLOPS |
-| Camera | HSB, CSI, PVA, OFA, 2× NVENC | HDMI out, desk cube |
-| Power | 40–130 W SOM | 240 W brick |
+BF16 is first-class. DiTs still do not belong on the body because of **273 GB/s**, not missing datatypes. No DLA (Orin had it; Thor does not).
 
-Thor has BF16, FP16, FP8, FP4, INT8, TF32 tensor ops (TensorRT CC 11.0). It is **not** FP4-only. The 273 GB/s hose is why DiTs still do not belong on it.
-
-No DLA (Orin had it; Thor does not).
-
-## What “full H3” needs (so we stop shopping Spark)
+## What “full H3” needs
 
 Native BF16, one task (FL2VA **or** Ref2VA): ~108–144 GB weights (DiT 62–66 + encoder 46–67 + VAE 5–11).
 
 - No single non-datacenter GPU holds that resident. Largest workstation card is **96 GB**.
 - **One PRO 6000** runs full-quality H3 by **swapping** encoder and DiT (measured: BF16 TE path ~245 s/request at 768²; default 4-bit TE + BF16 DiT ~160–185 s, peak ~92 GB).
 - **Two PRO 6000s** can keep encoder + DiT + VAE on GPUs (~144 GB in 192 GB) over PCIe, not NVLink. Not tensor-parallel BF16.
-- Thor / Spark 128 GB unified: BF16 H3 does not fit in ~121 GB usable; working Spark path is online FP8, not the reference.
+- Thor’s 128 GB unified pool does not hold BF16 H3 resident either (~121 GB usable). H3 stays on the 6000.
 
 H3 open weights currently **exclude US / EU / UK / KR**. For a US artist, default local video is Wan 2.2 + Hunyuan 1.5 + Cosmos. H3 is a license-gated extra (or MiniMax API).
 

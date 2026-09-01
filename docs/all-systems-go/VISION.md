@@ -14,8 +14,6 @@ Thor captures and calls shots. The 6000 generates and reconstructs. The NAS is t
 | **Coprocessor** — RTX PRO 6000 Blackwell 96 GB (1792 GB/s; optional dual) | H3/Wan/FLUX quality, gsplat train, TRELLIS, VGGT, Cosmos |
 | **NAS** | Takes, proxies, pose, prompts, LUTs, USD, splats, checkpoints |
 
-Spark / GB10 is **not** a box in this product. Same 273 GB/s as Thor, no camera I/O, weaker live path, not an H3 quality node.
-
 ## Artist control (exit test)
 
 Rent is payment without exit. Convenience, hosted uptime, and the 6000’s speed may go away when you stop paying for hardware. **Keys, takes, prompts, LUTs, and scenes must not.**

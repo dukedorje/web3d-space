@@ -5,7 +5,7 @@ Planning consult ran 2026-09-01 as a **plan-shape Grok subagent**. Fable 5.1 was
 ## Decisions already taken (do not re-litigate without new evidence)
 
 1. **Thor is the camera body.** 128 GB @ 273 GB/s, BF16 first-class, HSB/GMSL, NVENC, PVA, 40–130 W.
-2. **PRO 6000 is the quality/render box.** Not Spark. Spark is FP4-oriented *in practice* because of the same 273 GB/s hose and sm_121 kernel holes; it is a desk cube, not a camera.
+2. **PRO 6000 is the quality/render box.**
 3. **Full BF16 H3 is not resident on one non-datacenter GPU.** One 96 GB card runs it with encoder↔DiT swap. Dual 6000 is the “both big modules on GPU” buy.
 4. **H3 is not a capture model** and is **license-gated in the US** for open weights.
 5. **Rooms are captured, not generated.** TRELLIS is props. Repo H6 still holds.
