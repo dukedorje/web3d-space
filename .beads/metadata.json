@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "web3d_space",
+  "project_id": "a163b7ac-8d4a-4364-a6c7-47c541473efa"
+}
