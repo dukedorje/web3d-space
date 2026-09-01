@@ -57,6 +57,12 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 - If a required sync or push is blocked, stop and report the exact command and error.
 <!-- END BEADS INTEGRATION -->
 
+## Beads Dolt sync
+
+- **Never run `bd init` again.** A fresh clone already works: `bd` derives the Dolt remote from git origin, and `.beads/config.yaml` pins `sync.remote` to `git+ssh://git@github.com/dukedorje/web3d-space.git`. `bd init` would create a new database with no shared lineage.
+- Cross-machine sync is Dolt, not JSONL: `bd dolt pull` / `bd dolt push`. Data lives at `refs/dolt/data` on GitHub (plus `refs/heads/__dolt_remote_info__`). `.beads/issues.jsonl` is a passive export.
+- `bd dolt remote list` should print `origin`. The hooks warning "no Dolt remote configured" is a false alarm — verify with that command, don't "repair" it.
+- Fresh clone: `bd bootstrap` (or just `bd list`) hydrates from `sync.remote`. Do not `bd import` during normal operation.
 
 ## Build & Test
 
