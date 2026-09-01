@@ -2,6 +2,8 @@
 
 This file provides instructions and context for AI coding agents working on this project.
 
+**Product:** All Systems Go — local-first AI camera / assistant director / spatial filmmaking. Ground docs: `docs/all-systems-go/`. The SvelteKit app is the spatial viewer, not the camera firmware.
+
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:6cd5cc61 -->
 ## Beads Issue Tracker
 

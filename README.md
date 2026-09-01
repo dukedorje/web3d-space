@@ -1,38 +1,26 @@
-# sv
+# All Systems Go
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Local-first AI camera, assistant director, and multi-modal spatial filmmaking suite.
 
-## Creating a project
+Three boxes: **Jetson Thor** (camera / live AD), **RTX PRO 6000** (quality / generate / reconstruct), **on-site NAS** (vault). This repository is the product ground and the **spatial viewer** (PlayCanvas hybrid mesh + Gaussian splat).
 
-If you're seeing this, you've probably already done this step. Congrats!
+**Read:** [docs/all-systems-go/README.md](docs/all-systems-go/README.md)
 
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Viewer (this tree)
 
 ```sh
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
+- `/` — lab index
+- `/splat` — Gaussian splat + mesh scenes
+- `/boids` — WebGPU compute heritage
+- `/how-it-works` — explainer
 
 ```sh
-npm run build
+npm test          # unit + e2e
+npm run splat:convert
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Older capture/splat research: `docs/research/`.
