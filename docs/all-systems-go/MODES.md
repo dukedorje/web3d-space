@@ -6,7 +6,7 @@ Modes are **GPU-resident profiles on Thor**, not apps. Encode + metadata always 
 
 | Job | What | Notes |
 |---|---|---|
-| **Record / proxy** | HSB / GMSL / USB → 2× NVENC HEVC | Timecode, slate, LUT id, IMU, lens. NAS write-through; local NVMe ring if the link drops. T5000: up to 6× 4Kp60 H.265 |
+| **Record / proxy** | HSB / GMSL / USB → 2× NVENC HEVC | Timecode, slate, LUT id, IMU, **Cooke /i–class lens** (focal, T-stop, focus, entrance pupil, serial) as a JSONL sidecar 1:1 with picture — hardware home `AICamera/docs/LENS.md`. NAS write-through; local NVMe ring if the link drops. T5000: up to 6× 4Kp60 H.265 |
 | **Pose stream** | Isaac ROS Visual SLAM / cuVSLAM + IMU | Live matchmove backbone. T5000 stereo disparity 1080p ~187 fps / 5.8 ms @ 30 Hz (vendor). Not VGGT |
 | **Audio** | Hardware path first (AES67 / Dante / body mics) | Maxine denoise is a helper. Boom op owns the take |
 
