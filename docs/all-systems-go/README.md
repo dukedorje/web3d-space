@@ -13,6 +13,7 @@ This folder is the product ground. The SvelteKit app in `src/` is the **spatial 
 | [HARDWARE.md](HARDWARE.md) | Thor / 6000 / NAS, mode switching |
 | [SCENE.md](SCENE.md) | Virtual scene, matchmove, overlay, performance |
 | [BRAINSTORM.md](BRAINSTORM.md) | Consult residue and open questions |
+| [GPU-SIM.md](GPU-SIM.md) | T4000 live-stack sim on RunPod (`/gpu`) |
 
 Older capture/splat research still applies:
 

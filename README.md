@@ -17,6 +17,7 @@ npm run dev
 - `/splat` — Gaussian splat + mesh scenes
 - `/boids` — WebGPU compute heritage
 - `/how-it-works` — explainer
+- `/gpu` — RunPod GPU ops console (local `vite dev` only; needs `RUNPOD_API_KEY`). See [docs/all-systems-go/GPU-SIM.md](docs/all-systems-go/GPU-SIM.md).
 
 ```sh
 npm test          # unit + e2e

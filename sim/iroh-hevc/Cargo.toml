@@ -1,0 +1,10 @@
+[package]
+name = "iroh-hevc"
+version = "0.1.0"
+edition = "2021"
+description = "Pipe H.265 Annex-B over an iroh QUIC stream (camera → cloud sim)."
+
+[dependencies]
+anyhow = "1"
+iroh = "0.95"
+tokio = { version = "1", features = ["full"] }

@@ -13,6 +13,10 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 > source of truth; don't `bd import` during normal operation; don't
 > reach for third-party Dolt hosting before trying the default).
 
+## GPU ops console (`/gpu`)
+
+Local `vite dev` only. GitHub Pages SSG skips it. Needs `RUNPOD_API_KEY` in `.env` (same RunPod account as negotiated). Default SKU: **RTX PRO 4500 Blackwell** in **EU-RO-1** at $0.72/hr — cheapest HIGH-stock Blackwell that beats a T4000 on tensor/FP4. Auto-off 30 min, `aicam-` pods only. Never terminate `negotiated-gpu-*`. Details: `docs/all-systems-go/GPU-SIM.md`.
+
 ## Quick Reference
 
 ```bash

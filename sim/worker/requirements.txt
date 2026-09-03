@@ -1,0 +1,9 @@
+fastapi>=0.115
+python-multipart>=0.0.9
+uvicorn[standard]>=0.32
+pillow>=10.4
+transformers>=4.45
+av>=13.0
+numpy>=2.0
+# optional background-removal; depth-gated matte always works
+# rembg[gpu]
