@@ -11,8 +11,11 @@ Latency: **LIVE** &lt;33 ms · **NEAR** 1–30 s · **MIN** minutes · **NIGHT**
 | Pose / VO | Isaac ROS Visual SLAM / cuVSLAM | LIVE 5.8 ms stereo 1080p T5000 FACT | small | **Thor always** |
 | Dense stereo | Isaac disparity / OFA | LIVE | accelerator | Thor |
 | Depth (mono) | Depth Anything V2-S | LIVE | &lt;1–2 GB | Thor |
+| Depth (video) | **Video Depth Anything Small** / oVDA / DA3-SMALL | LIVE (SPEC) | ~0.5–2 GB | Thor; still DA-V2-S until measured. VDA-L / DepthCrafter = 6000. See [VIDEO-PERCEPTION.md](VIDEO-PERCEPTION.md) |
 | Segment / track | SAM2 (TensorRT) | LIVE–NEAR | 1–4 GB + bank | Thor |
+| Named instances | YOLOE (live) / SAM 3.1 (sim) | LIVE keyframes + track | small / ~3.4 GB | Thor: detect every N frames. SAM 3.1 is 6000 until TRT |
 | Face / body | NVIDIA Maxine AR | LIVE | small | Thor; 6000 if many streams |
+| Talent matte | RVM MobileNetV3 (people) or invert instance union | LIVE | small | Hair = RVM. “Remove the room” = 1−∪masks. Not rembg-per-frame |
 | Audio | Maxine Audio / ASD | LIVE | small | Thor |
 | Shot-calling | **Qwen3.5-9B** or Qwen3-VL-8B | NEAR | ~7–12 GB | **Thor resident** |
 | AD heavy | Qwen3.5-27B Q6 or 35B-A3B Q4 | NEAR | ~23 GB | Thor *or* 6000; unload klein |

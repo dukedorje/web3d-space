@@ -14,6 +14,7 @@ This folder is the product ground. The SvelteKit app in `src/` is the **spatial 
 | [SCENE.md](SCENE.md) | Virtual scene, matchmove, overlay, performance |
 | [BRAINSTORM.md](BRAINSTORM.md) | Consult residue and open questions |
 | [GPU-SIM.md](GPU-SIM.md) | T4000 live-stack sim on RunPod (`/gpu`) |
+| [VIDEO-PERCEPTION.md](VIDEO-PERCEPTION.md) | Depth / named instances / bg matte — video models vs Thor LIVE |
 
 Older capture/splat research still applies:
 
