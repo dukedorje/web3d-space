@@ -1,28 +1,22 @@
 import type { WorldDocument } from './document.js';
 
-/** Gallery-shaped fixture: HDRI, one GLB, one splat sidecar, camera, LOD. */
+/** Dreamballz XELA vessel + dingdong sky, pulled onto LFS. */
 export const WORLD_FIXTURE: WorldDocument = {
-	hdri: '/env/studio.hdr',
+	hdri: '/worlds/xela/planet-atmosphere.png',
 	entities: [
 		{
-			id: 'gallery',
-			glb: '/models/vr-gallery.glb',
+			id: 'xela',
+			glb: '/worlds/xela/xela.glb',
 			position: [0, 0, 0],
-			lodDistance: 80
-		},
-		{
-			id: 'guitar',
-			splat: '/splats/guitar.compressed.ply',
-			position: [0, 0.8, 0],
-			lodDistance: 25
+			lodDistance: 200
 		}
 	],
 	cameras: [
 		{
 			id: 'entry',
-			position: [-3, 1.5, 2],
-			yaw: 150,
-			pitch: -5
+			position: [0, 3, 14],
+			yaw: 180,
+			pitch: -8
 		}
 	],
 	lights: [{ id: 'key', type: 'directional', intensity: 1 }]

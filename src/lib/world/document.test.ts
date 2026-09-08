@@ -5,9 +5,9 @@ import { WORLD_FIXTURE } from './fixture.js';
 describe('parseWorldDocument', () => {
 	it('parses a fixture with HDRI, GLB, camera, and LOD', () => {
 		const doc = parseWorldDocument(WORLD_FIXTURE);
-		expect(doc.hdri).toBe('/env/studio.hdr');
-		expect(doc.entities[0]?.glb).toBe('/models/vr-gallery.glb');
-		expect(doc.entities[0]?.lodDistance).toBe(80);
+		expect(doc.hdri).toBe('/worlds/xela/planet-atmosphere.png');
+		expect(doc.entities[0]?.glb).toBe('/worlds/xela/xela.glb');
+		expect(doc.entities[0]?.lodDistance).toBe(200);
 		expect(doc.cameras[0]?.id).toBe('entry');
 	});
 

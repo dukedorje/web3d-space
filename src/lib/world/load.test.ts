@@ -10,9 +10,8 @@ describe('assertWorldAssetsAvailable', () => {
 		const fetchImpl = vi.fn(async () => ({ ok: true, status: 200 }));
 		await assertWorldAssetsAvailable(parseWorldDocument(WORLD_FIXTURE), fetchImpl);
 		const urls = fetchImpl.mock.calls.map((c) => c[0]);
-		expect(urls).toContain('/env/studio.hdr');
-		expect(urls).toContain('/models/vr-gallery.glb');
-		expect(urls).toContain('/splats/guitar.compressed.ply');
+		expect(urls).toContain('/worlds/xela/planet-atmosphere.png');
+		expect(urls).toContain('/worlds/xela/xela.glb');
 	});
 
 	it('throws MissingAssetError for a missing GLB', async () => {
@@ -27,7 +26,7 @@ describe('assertWorldAssetsAvailable', () => {
 			assertWorldAssetsAvailable(parseWorldDocument(WORLD_FIXTURE), fetchImpl)
 		).rejects.toMatchObject({
 			kind: 'glb',
-			url: '/models/vr-gallery.glb'
+			url: '/worlds/xela/xela.glb'
 		});
 	});
 
