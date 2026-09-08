@@ -13,6 +13,21 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 > source of truth; don't `bd import` during normal operation; don't
 > reach for third-party Dolt hosting before trying the default).
 
+## Git LFS (Forgejo / mimir)
+
+Large 3D assets (GLB, SOG, splat, HDR, PLY, USD, KTX2, …) are Git LFS.
+Objects live on **Forgejo**, not GitHub: `https://mimir.worldtree.network/duke/web3d-space`.
+`.lfsconfig` pins `lfs.url` there. GitHub `origin` stays canonical for git; pointer files only.
+
+```sh
+git lfs install          # once per machine
+git remote add forgejo git@mimir.worldtree.network:duke/web3d-space.git   # if missing
+git push origin main
+git push forgejo main    # this is the LFS upload (SSH auth)
+```
+
+Do not `git add` a dreamballz GLB until LFS is tracking it (`.gitattributes`).
+
 ## Dreamballz world pull (`ssh xibu`)
 
 Public site is `https://dreamballz.com` (dashboard PM2 on `127.0.0.1:3000`). There is **no single Gaussian-splat environment** of the whole world. Pullable 3D:
