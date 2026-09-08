@@ -37,6 +37,9 @@ storybook-static
 # Asset pipeline scratch (e.g. logavatar checkpoint derivatives)
 .asset-staging
 
+# Intention spawn scratch (advise / workers)
+.spawns/
+
 # Beads / Dolt files (added by bd init)
 .dolt/
 .beads-credential-key

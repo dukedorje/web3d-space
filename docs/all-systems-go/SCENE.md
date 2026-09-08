@@ -71,3 +71,5 @@ Photoreal splat fill-rate at 4K on 273 GB/s is not a v1 claim. Mesh occluders + 
 ## Viewer (this repo)
 
 Adopt PlayCanvas for the film viewer (already on `/splat`). Do not fork a 500-line WGSL rasterizer for the spatial deliverable. Camera-body EVF is native Vulkan/GL on Jetson, not the browser.
+
+Browser world renderer (NeRF-shaped field, 3DGS cache, HDRI, LOD, `$lib/gpu` sidecar) is specified in [`ARCHITECTURE.md`](../../ARCHITECTURE.md). Do not relitigate those calls here.

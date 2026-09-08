@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "pkt-add-browser-renderer-advise",
+  "node_id": "add-browser-renderer-advise",
+  "capability": "browser-renderer",
+  "change_id": "add-browser-renderer",
+  "goal": "Advise add-browser-renderer. You are Sol (gpt-5.6-sol), other-family reader. Author is Grok. Fable 5.1 infra-red (Claude credit too low). Do not implement. Do not fold. Do not flip the banner.\n\nBLIND PASS first. From Why, cited code, and the fact that openspec/specs/ has no living browser-renderer spec yet, write a 10-line independent take (what you would pin, refuse, one tradeoff). Do not open design.md, tasks.md, or steer.md until that take is written. Then open those files and the spec delta, compare, steelman against your take.\n\nWrite openspec/changes/add-browser-renderer/reviews/2026-09-08-advise.md yourself.\n\nWhy (from proposal.md, not the design):\nThe /splat PlayCanvas viewer and the /boids WebGPU loop are two engines in one SvelteKit tree. Duke wants a browser world renderer: a continuous radiance field at every point, Gaussian splats as the runtime compression, an explicit 3D world model, HDRI sky, distance LOD, and imported meshes. Without an ADR, later nodes will fight over PlayCanvas vs Threlte, NeRF-in-the-browser vs splat raster, and who owns the GPUDevice.\nThis change names capability browser-renderer, records six architecture calls, and lands ARCHITECTURE.md. It does not implement gpu-exec, world-model, splat-cache, or the canvas journey.\nActivated 2026-09-08. Banner ACTIVE BUILD.\n\nCited code (read these before design.md):\n- src/lib/playcanvas/create-app.ts:24-28 — createGraphicsDevice deviceTypes webgpu then webgl2; GSplatComponentSystem\n- src/routes/splat/[slug]/+page.svelte:92-96 — CameraFrame.sceneDepthMap = true (mesh+splat composite)\n- src/lib/splat/scenes.ts:258-310 — vr-gallery mesh+splat composite\n- src/lib/gpu/gpu-init.ts:26-68 — separate navigator.gpu.requestAdapter / requestDevice\n- src/lib/gpu/animation-loop.ts:110-142 — one encoder, compute then render, ping-pong\n- docs/all-systems-go/SCENE.md:71-73 — adopt PlayCanvas; do not fork a 500-line WGSL rasterizer\n- docs/research/gaussian-splat-web-tools/synthesis.md:1-15 — PlayCanvas leads; no external GPUDevice API on splat libs\n\nLiving spec: none. Capability is ADDED by this change. Proposed SHALLs are in openspec/changes/add-browser-renderer/specs/browser-renderer/spec.md — read that AFTER the 10-line take.\nLEARNINGS.md: none.\n\nPersist the review with banners:\n> **ADVISE:** accept\nor\n> **ADVISE:** send-back\n> **READER:** sol-arch-review\n> **SPAWN:** <this spawn dir>\n",
+  "non_goals": [
+    "Implement ARCHITECTURE.md",
+    "Implement add-gpu-exec / add-world-model / add-splat-cache / add-browser-canvas",
+    "Fold",
+    "Flip the change banner",
+    "Rebase onto Threlte as a competing design in the review"
+  ],
+  "anchors": [
+    {
+      "symbol": "src/lib/playcanvas/create-app.ts",
+      "invariant": "PlayCanvas owns the splat/mesh graphics device (webgpu, webgl2)."
+    },
+    {
+      "symbol": "src/lib/gpu/gpu-init.ts",
+      "invariant": "Boids request a separate GPUDevice; the two stacks do not share one."
+    },
+    {
+      "symbol": "docs/all-systems-go/SCENE.md",
+      "invariant": "Film viewer already adopted PlayCanvas; do not fork a 500-line WGSL rasterizer."
+    }
+  ],
+  "acceptance": {
+    "kind": "contrast",
+    "if_true": "The six calls are pinned: home is this repo, PlayCanvas rasters mesh+splat, NeRF is the field and 3DGS is the runtime cache, no hardware RT in v1, world document is glTF-family with HDRI and LOD, $lib/gpu is a compute sidecar. Later nodes cannot relitigate those without a new change.",
+    "if_false": "Host engine, device ownership, or field-vs-cache is still a fight, or the spec claims a path tracer / in-browser MLP as v1."
+  },
+  "out_of_scope": [
+    {"item": "GPU kernel extract", "tracked_as": "add-gpu-exec"},
+    {"item": "World document loader", "tracked_as": "add-world-model"},
+    {"item": "Splat LOD streaming", "tracked_as": "add-splat-cache"},
+    {"item": "Canvas journey", "tracked_as": "add-browser-canvas"},
+    {"item": "Nanite / QtA", "tracked_as": "parked on web3d-space-9zr"}
+  ],
+  "constraints": {
+    "permission": "write",
+    "paths": [
+      "openspec/changes/add-browser-renderer/reviews/",
+      "openspec/changes/add-browser-renderer/tasks.md"
+    ],
+    "do_not": ["fold", "act", "deploy"]
+  },
+  "load_class": "intention-critical",
+  "rigor": "architecture",
+  "density": "lean",
+  "surface": "packet-only",
+  "role": "reader",
+  "assignee": {
+    "id": "agt-sol-arch-review",
+    "kind": "model",
+    "harness": "codex",
+    "interface": "gpt-5.6-sol",
+    "effort": "high",
+    "signing": {"mode": "stand-in", "stand_in_id": "agt-sol-arch-review"}
+  },
+  "requester": {
+    "id": "agt-grok",
+    "kind": "model",
+    "harness": "grok",
+    "signing": {"mode": "stand-in", "stand_in_id": "agt-grok"}
+  }
+}
