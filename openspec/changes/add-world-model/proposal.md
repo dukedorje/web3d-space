@@ -1,6 +1,8 @@
 # add-world-model
 
-> **PENDING**
+> **ACTIVE BUILD**
+
+Activated 2026-09-08 (`activate add-gpu-exec & add-world-model`).
 
 **Rigor:** change
 

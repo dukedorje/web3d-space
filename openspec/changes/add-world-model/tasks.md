@@ -1,9 +1,9 @@
 # Tasks
 
-- [ ] Typed world document (HDRI, GLB entities, cameras, lights, LOD
+- [x] Typed world document (HDRI, GLB entities, cameras, lights, LOD
       distances, optional splat refs)
-- [ ] Loader: missing asset fails visibly
-- [ ] Fixture round-trip unit test
+- [x] Loader: missing asset fails visibly
+- [x] Fixture round-trip unit test
 
 Handoffs (not boxes):
 
