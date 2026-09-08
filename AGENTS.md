@@ -13,6 +13,25 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 > source of truth; don't `bd import` during normal operation; don't
 > reach for third-party Dolt hosting before trying the default).
 
+## Dreamballz world pull (`ssh xibu`)
+
+Public site is `https://dreamballz.com` (dashboard PM2 on `127.0.0.1:3000`). There is **no single Gaussian-splat environment** of the whole world. Pullable 3D:
+
+| What | URL / path | Notes |
+|---|---|---|
+| XELA vessel | `https://dreamballz.com/live/xela.glb` (37M) | Room `xela-ship` scene.json already names this + `environment: starfield` |
+| my-scene / XELASHIP | `https://dreamballz.com/live/my-scene.glb` (25M) | Same family |
+| World-Tree doorway | `https://dreamballz.com/scape/WT_DOORWAY.glb` (7.2M) | |
+| DingDong sky | `https://dreamballz.com/dingdong/hdri/planet-atmosphere.png` (12M) | PNG, not `.hdr` |
+| Blenderz captures | `https://dreamballz.com/scenes/<id>/scene.glb` | 93 ids under `/var/www/scenes/` |
+| Room export | `GET /api/world/export/room/<slug>` | Kinded objects JSON (`world-tree-room/1`) |
+| Room Three scene | `GET /api/rooms/<slug>/scene` | `sovrians-box-room` is 615 Three.js meshes, **no GLB src** — not a drop-in world document |
+| Test splat | `https://dreamballz.com/uploads/test-capture.splat` | 6.4K, not a real env |
+
+On-box: rooms in `/root/dashboard_v3/game-workspace/rooms/`; extra GLB/HDR in `game-workspace/assets` and `uploads/`. Sanctum shell (42M) is `/root/dingdong-cabinet/static/wtm-scene/sanctum-shell-opt.glb` (not on the public `/live/` list).
+
+First web3d-space world document: HDRI = dingdong planet PNG, entity GLB = `/live/xela.glb` (or a `/scenes/<id>/scene.glb`). Do not treat sovrians-box JSON as GLB.
+
 ## GPU ops console (`/gpu`)
 
 Local `vite dev` only. GitHub Pages SSG skips it. Needs `RUNPOD_API_KEY` in `.env` (same RunPod account as negotiated). Default SKU: **RTX PRO 4500 Blackwell** in **EU-RO-1** at $0.72/hr — cheapest HIGH-stock Blackwell that beats a T4000 on tensor/FP4. Auto-off 30 min, `aicam-` pods only. Never terminate `negotiated-gpu-*`. Details: `docs/all-systems-go/GPU-SIM.md`.
