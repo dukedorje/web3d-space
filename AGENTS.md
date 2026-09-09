@@ -47,6 +47,10 @@ On-box: rooms in `/root/dashboard_v3/game-workspace/rooms/`; extra GLB/HDR in `g
 
 First web3d-space world document: HDRI = dingdong planet PNG, entity GLB = `/live/xela.glb` (or a `/scenes/<id>/scene.glb`). Do not treat sovrians-box JSON as GLB.
 
+## Favicon (hyper-sigil)
+
+Not the Svelte logo. `src/lib/assets/favicon.svg` + `static/favicon.svg` / `static/favicon.ico` are a frozen still of xibu `dashboard_v3/public/js/hyper-sigil.js` at `t=2000` (the reduced-motion frame): tetra Dream-Field cell + counter-rotating cyan hex / 12-gon rings, gold `#F5BE4F` / cyan `#22E0E2`. Do not invent a new mark — that renderer is the live portal on dreamballz/xibudojo. Limen (`data/hypersigils.json`) is the forged door-keeper; its glyphSeed is hue 117 / 3 shapes, but the landing canvas is the square-readable sigil.
+
 ## GPU ops console (`/gpu`)
 
 Local `vite dev` only. GitHub Pages SSG skips it. Needs `RUNPOD_API_KEY` in `.env` (same RunPod account as negotiated). Default SKU: **RTX PRO 4500 Blackwell** in **EU-RO-1** at $0.72/hr — cheapest HIGH-stock Blackwell that beats a T4000 on tensor/FP4. Auto-off 30 min, `aicam-` pods only. Never terminate `negotiated-gpu-*`. Details: `docs/all-systems-go/GPU-SIM.md`.
