@@ -35,7 +35,7 @@
 		display: flex;
 		align-items: flex-end;
 		gap: 1.25rem;
-		font-family: 'Share Tech Mono', ui-monospace, monospace;
+		font-family: 'Tactic Sans', 'Share Tech Mono', ui-monospace, monospace;
 	}
 	.gpu-widget__dots {
 		display: flex;
@@ -62,7 +62,7 @@
 		color: #4aa8b0;
 	}
 	.gpu-widget__count {
-		font-family: Oxanium, 'Share Tech Mono', monospace;
+		font-family: 'Tactic Sans Extra Extended', 'Tactic Sans', Oxanium, monospace;
 		font-size: 3rem;
 		line-height: 0.9;
 		font-weight: 700;

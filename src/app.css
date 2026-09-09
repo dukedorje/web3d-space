@@ -1,3 +1,9 @@
 @import 'tailwindcss';
+@import './lib/fonts.css';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+@theme {
+	--font-display: 'Space Age', sans-serif;
+	--font-numerals: 'Tactic Sans', sans-serif;
+}

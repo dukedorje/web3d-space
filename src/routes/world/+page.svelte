@@ -4,6 +4,7 @@
 	import { WORLD_FIXTURE } from '$lib/world/fixture';
 	import { parseWorldDocument } from '$lib/world/document';
 	import { mountWorld, worldBounds } from '$lib/world/mount';
+	import LockInSwitch from '$lib/components/LockInSwitch.svelte';
 
 	let canvas: HTMLCanvasElement;
 	let loading = $state(true);
@@ -181,3 +182,5 @@
 {#if showDebug}
 	<div class="fixed bottom-4 left-4 font-mono text-xs text-cyan-300">{debugInfo}</div>
 {/if}
+
+<LockInSwitch />

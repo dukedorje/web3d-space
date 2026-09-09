@@ -1,0 +1,345 @@
+/* Local faces. Display = Space Age; numerals = Tactic Sans (soft; exceptions ok). */
+@font-face {
+  font-family: 'Space Age';
+  src: url('/fonts/space-age.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Bld.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-BldIt.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Blk.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-BlkIt.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Lgt.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-LgtIt.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Med.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-MedIt.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Reg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-RegIt.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Thn.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-ThnIt.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-Ult.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans';
+  src: url('/fonts/tactic-sans/TacticSans-UltIt.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Bld.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-BldIt.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Blk.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-BlkIt.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Lgt.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-LgtIt.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Med.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-MedIt.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Reg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-RegIt.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Thn.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-ThnIt.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-Ult.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extended';
+  src: url('/fonts/tactic-sans/TacticSansExd-UltIt.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Bld.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-BldIt.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Blk.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-BlkIt.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Lgt.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-LgtIt.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Med.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-MedIt.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Reg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-RegIt.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Thn.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-ThnIt.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-Ult.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tactic Sans Extra Extended';
+  src: url('/fonts/tactic-sans/TacticSansExtExd-UltIt.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+

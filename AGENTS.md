@@ -51,6 +51,14 @@ First web3d-space world document: HDRI = dingdong planet PNG, entity GLB = `/liv
 
 Not the Svelte logo. `src/lib/assets/favicon.svg` + `static/favicon.svg` / `static/favicon.ico` are a frozen still of xibu `dashboard_v3/public/js/hyper-sigil.js` at `t=2000` (the reduced-motion frame): tetra Dream-Field cell + counter-rotating cyan hex / 12-gon rings, gold `#F5BE4F` / cyan `#22E0E2`. Do not invent a new mark — that renderer is the live portal on dreamballz/xibudojo. Limen (`data/hypersigils.json`) is the forged door-keeper; its glyphSeed is hue 117 / 3 shapes, but the landing canvas is the square-readable sigil.
 
+## Type pairing (soft — exceptions allowed)
+
+- **Display / lock-in / titles:** Space Age — `static/fonts/space-age.ttf` (Justin Callaghan, personal use; keep `static/fonts/Space.txt` with it).
+- **Numerals:** Tactic Sans — full set in `static/fonts/tactic-sans/` (Thin→Ultra, roman+italic, plus Extended and Extra Extended). Prefer Extra Extended Black for HUD digits.
+- Do not invent a third display face. If a surface needs something else, that's an allowed exception — note why.
+
+Faces are registered in `src/lib/fonts.css`. Tailwind tokens: `font-display`, `font-numerals`.
+
 ## GPU ops console (`/gpu`)
 
 Local `vite dev` only. GitHub Pages SSG skips it. Needs `RUNPOD_API_KEY` in `.env` (same RunPod account as negotiated). Default SKU: **RTX PRO 4500 Blackwell** in **EU-RO-1** at $0.72/hr — cheapest HIGH-stock Blackwell that beats a T4000 on tensor/FP4. Auto-off 30 min, `aicam-` pods only. Never terminate `negotiated-gpu-*`. Details: `docs/all-systems-go/GPU-SIM.md`.
