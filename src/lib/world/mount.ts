@@ -14,10 +14,24 @@ export async function mountWorld(pcApp: PlayCanvasApp, world: WorldDocument): Pr
 	}
 
 	await new Promise<void>((resolve, reject) => {
+		const failures: string[] = [];
+		const onAssetError = (err: unknown, asset: InstanceType<typeof pc.Asset>) => {
+			const url = asset.getFileUrl() ?? asset.name;
+			const why = err instanceof Error ? err.message : String(err);
+			failures.push(`${asset.name} (${url}): ${why}`);
+			console.error('[world] asset error', asset.name, url, err);
+		};
+		app.assets.on('error', onAssetError);
 		const loader = new pc.AssetListLoader(Object.values(assets), app.assets);
-		loader.load((err: unknown) => {
-			if (err) reject(err instanceof Error ? err : new Error(String(err)));
-			else resolve();
+		loader.load((err: unknown, failed?: InstanceType<typeof pc.Asset>[]) => {
+			app.assets.off('error', onAssetError);
+			if (!err) {
+				resolve();
+				return;
+			}
+			const fromLoader = (failed ?? []).map((a) => `${a.name} (${a.getFileUrl() ?? '?'})`);
+			const detail = [...new Set([...failures, ...fromLoader])].join('; ') || String(err);
+			reject(new Error(detail));
 		});
 	});
 
