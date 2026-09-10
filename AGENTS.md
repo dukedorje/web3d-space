@@ -59,6 +59,12 @@ Not the Svelte logo. `src/lib/assets/favicon.svg` + `static/favicon.svg` / `stat
 
 Faces are registered in `src/lib/fonts.css`. Tailwind tokens: `font-display`, `font-numerals`.
 
+## Lightning radio world (`/mesh`)
+
+Simulated Lightning Mesh `GET /api/radio` (schema v1) from the four-router
+802.11s fleet (Front Porch, Kitchen, Workshop, Hill). Directory gossips
+in, then stations + HWMP paths. PlayCanvas, not myscape. Local `vite dev`.
+
 ## GPU ops console (`/gpu`)
 
 Local `vite dev` only. GitHub Pages SSG skips it. Needs `RUNPOD_API_KEY` in `.env` (same RunPod account as negotiated). Default SKU: **RTX PRO 4500 Blackwell** in **EU-RO-1** at $0.72/hr — cheapest HIGH-stock Blackwell that beats a T4000 on tensor/FP4. Auto-off 30 min, `aicam-` pods only. Never terminate `negotiated-gpu-*`. Details: `docs/all-systems-go/GPU-SIM.md`.

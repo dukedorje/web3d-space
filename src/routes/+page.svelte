@@ -1,6 +1,7 @@
 <script lang="ts">
 	const links = [
 		{ href: '/world', title: 'WORLD', blurb: 'Dreamballz XELA + dingdong sky' },
+		{ href: '/mesh', title: 'MESH', blurb: 'Lightning radio world, simulated' },
 		{ href: '/splat', title: 'SPLAT', blurb: 'Gaussian splat scenes' },
 		{ href: '/boids', title: 'BOIDS', blurb: 'WebGPU compute heritage' }
 	];
