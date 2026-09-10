@@ -119,6 +119,22 @@ RVM is the only matte that is **already LIVE-class on 2017 hardware**. It will n
 
 Live EVF already decided: **depth-test**, not a generated plate. A matte is for privacy blur, virtual-set hole, or the sim viewer — not a 4K 24p key.
 
+## Resident 30 fps (the design target)
+
+One pipeline of named slots: depth, names, track, matte, body pose, camera pose. Same software everywhere.
+
+| Envelope | Residency | Pack | What a 30 fps stream means |
+|---|---|---|---|
+| Thor T4000 | all live slots **resident** | SMALL | Body design target. SPEC until measured on Thor silicon. |
+| AGX Thor Dev Kit | resident | SMALL, shares `t4000` | Lab brick. Bandwidth ~1× T4000; TPC ×0.6; 2× NVENC. |
+| fractal1 3090 | **swap** one SMALL slot | SMALL | Emulator. Slow on purpose. Derate in `docs/3090-SIM.md`. Not a 30 fps host. |
+| RunPod **RTX PRO 6000 Blackwell Server 96 GB** (~$2.09/hr) | all live slots **resident** | LARGE | **The 30 fps all-filters lab SKU.** Lab result. **No derate to T4000.** |
+| Truck 6000 | not the live mix | — | Quality / overnight. Shares `6000` until measured apart. |
+
+PRO 4500 32 GB stays the cheap T4000-shaped quant sim, not this job. Do not terminate `negotiated-gpu-*`.
+
+SAM 3.1 + VDA-L SHALL NOT pack on T4000. 273 GB/s, not VRAM.
+
 ## Compute budget on Thor
 
 T4000: 1536 CUDA, 64 GB unified, **273 GB/s**, 70 W (90 W throttle). Resident set designed **≤ ~40 GB** so encode + SLAM + one extra never page. MIG: slice 0 = NVENC + cuVSLAM; slice 1 = overlay. Kill slice 1 before frames drop.
@@ -140,7 +156,7 @@ T4000 vs T5000: overlay is a **TPC / NVENC** problem as much as a model problem.
 
 ## Sim pipeline (YouTube → AI stream)
 
-Offline on a PRO 4500 / 6000 / the `/gpu` worker. Not Thor.
+Realtime lab: rent the PRO 6000 96 GB, keep LARGE slots resident, stream. Offline bring-up: PRO 4500 / the `/gpu` worker. fractal1 3090: one SMALL slot, then unload. Not Thor.
 
 ```
 HEVC in

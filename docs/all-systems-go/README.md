@@ -10,7 +10,7 @@ This folder is the product ground. The SvelteKit app in `src/` is the **spatial 
 | [PIPELINE.md](PIPELINE.md) | Stages from power-on to archive |
 | [MODES.md](MODES.md) | Camera-body jobs (live) |
 | [MODELS.md](MODELS.md) | Models per job, latency, VRAM, box |
-| [HARDWARE.md](HARDWARE.md) | Thor / 6000 / NAS, mode switching |
+| [HARDWARE.md](HARDWARE.md) | Four envelopes (T4000, 3090 swap, RunPod 6000 30fps lab, truck 6000) |
 | [SCENE.md](SCENE.md) | Virtual scene, matchmove, overlay, performance |
 | [BRAINSTORM.md](BRAINSTORM.md) | Consult residue and open questions |
 | [GPU-SIM.md](GPU-SIM.md) | T4000 live-stack sim on RunPod (`/gpu`) |

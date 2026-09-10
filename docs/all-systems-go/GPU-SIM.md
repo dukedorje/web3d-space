@@ -33,10 +33,11 @@ No SKU is 6 TPC / 273 GB/s / 70 W. Rent by which lie you are correcting:
 | Job | Rent |
 |---|---|
 | FP8 / NVFP4 kernels (what the 3090 cannot do) | **RTX PRO 4000 Blackwell 24 GB** (~$0.57) or keep this **PRO 4500** |
-| 64 GB resident set (9B + klein + SAM2) | **RTX PRO 6000 Blackwell 96 GB** (~$2.09) |
+| **30 fps all-filters resident** (LARGE pack: VDA-L / SAM 3.1 / …) | **RTX PRO 6000 Blackwell Server 96 GB** (~$2.09) — the lab SKU. Same software as T4000. **No derate to T4000.** |
+| 64 GB resident set (9B + klein + SAM2) | same PRO 6000 96 GB |
 | Do not rent as a T4000 | Tesla T4, Ampere 3090/A40, Ada L40S |
 
-Keep `lduog58vatxh44` for the `/gpu` worker. Next dedicated T4000-shaped run is PRO 4000 (quant) or PRO 6000 (envelope).
+Keep `lduog58vatxh44` for the `/gpu` worker. Do not terminate `negotiated-gpu-*`. T4000 30 fps stays SPEC until Thor silicon.
 
 ## Admin
 

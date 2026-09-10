@@ -6,20 +6,23 @@ Latency: **LIVE** &lt;33 ms · **NEAR** 1–30 s · **MIN** minutes · **NIGHT**
 
 ## Perception / live (Thor-first)
 
-| Job | Model | Latency | VRAM | Box |
-|---|---|---|---|---|
-| Pose / VO | Isaac ROS Visual SLAM / cuVSLAM | LIVE 5.8 ms stereo 1080p T5000 FACT | small | **Thor always** |
-| Dense stereo | Isaac disparity / OFA | LIVE | accelerator | Thor |
-| Depth (mono) | Depth Anything V2-S | LIVE | &lt;1–2 GB | Thor |
-| Depth (video) | **Video Depth Anything Small** / oVDA / DA3-SMALL | LIVE (SPEC) | ~0.5–2 GB | Thor; still DA-V2-S until measured. VDA-L / DepthCrafter = 6000. See [VIDEO-PERCEPTION.md](VIDEO-PERCEPTION.md) |
-| Segment / track | SAM2 (TensorRT) | LIVE–NEAR | 1–4 GB + bank | Thor |
-| Named instances | YOLOE (live) / SAM 3.1 (sim) | LIVE keyframes + track | small / ~3.4 GB | Thor: detect every N frames. SAM 3.1 is 6000 until TRT |
-| Face / body | NVIDIA Maxine AR | LIVE | small | Thor; 6000 if many streams |
-| Talent matte | RVM MobileNetV3 (people) or invert instance union | LIVE | small | Hair = RVM. “Remove the room” = 1−∪masks. Not rembg-per-frame |
-| Audio | Maxine Audio / ASD | LIVE | small | Thor |
-| Shot-calling | **Qwen3.5-9B** or Qwen3-VL-8B | NEAR | ~7–12 GB | **Thor resident** |
-| AD heavy | Qwen3.5-27B Q6 or 35B-A3B Q4 | NEAR | ~23 GB | Thor *or* 6000; unload klein |
-| Camera-as-robot | OpenPi π0.5 TRT FP8+NVFP4 | LIVE ~49 ms FACT Thor | FP4-friendly | Thor only if actuated |
+Pack is SMALL (T4000 resident, 3090 when a slot is loaded) or LARGE (PRO 6000 resident-30fps lab). 3090 swaps one SMALL slot. Envelope id and pack id are separate; defaults follow HARDWARE.md.
+
+| Job | SMALL | LARGE | Latency | VRAM | Box |
+|---|---|---|---|---|---|
+| Pose / VO | Isaac ROS Visual SLAM / cuVSLAM | same | LIVE 5.8 ms stereo 1080p T5000 FACT | small | **Thor always** (empty on body until stereo) |
+| Dense stereo | Isaac disparity / OFA | same | LIVE | accelerator | Thor |
+| Depth (mono) | Depth Anything V2-S | — | LIVE | &lt;1–2 GB | Thor bring-up until VDA-S measured |
+| Depth (video) | **VDA-S** / oVDA / DA3-SMALL | VDA-L or DA3METRIC-L | LIVE (SPEC) | ~0.5–2 GB / larger | Thor SMALL; 6000 LARGE. DepthCrafter = NIGHT. See [VIDEO-PERCEPTION.md](VIDEO-PERCEPTION.md) |
+| Camera pose (until stereo) | — | DA3 pose head | LIVE (SPEC) | small | sim / 6000; cuVSLAM on Thor when stereo exists |
+| Segment / track | SAM2-tiny / EdgeTAM | SAM 3.1 memory or SAM2-L | LIVE–NEAR | 1–4 GB + bank | Thor SMALL; 6000 LARGE |
+| Named instances | YOLOE every N frames | SAM 3.1 | LIVE keyframes + track | small / ~3.4 GB | Thor: detect every N frames. SAM 3.1 is 6000 until TRT |
+| Face / body | NVIDIA Maxine AR | RTMW or Maxine (many streams) | LIVE | small | Thor; 3090 uses RTMPose-m TRT FP16 |
+| Talent matte | RVM MobileNetV3 (people) or invert instance union | SAM2Matting / invert union | LIVE | small | Hair = RVM. “Remove the room” = 1−∪masks. Not rembg-per-frame |
+| Audio | Maxine Audio / ASD | same | LIVE | small | Thor |
+| Shot-calling | **Qwen3.5-9B** or Qwen3-VL-8B | same | NEAR | ~7–12 GB | **Thor resident** — AD, not a live slot |
+| AD heavy | Qwen3.5-27B Q6 or 35B-A3B Q4 | same | NEAR | ~23 GB | Thor *or* 6000; unload klein |
+| Camera-as-robot | OpenPi π0.5 TRT FP8+NVFP4 | — | LIVE ~49 ms FACT Thor | FP4-friendly | Thor only if actuated |
 
 ## Image
 

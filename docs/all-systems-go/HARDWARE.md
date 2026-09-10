@@ -1,17 +1,24 @@
-# Hardware — three boxes and how they switch
+# Hardware — four envelopes and how they switch
+
+The live mix is designed **everything resident at 30 fps**. Same software on a local T4000 or a rented PRO 6000. fractal1’s 3090 emulates that path by swapping, slowly. A 6000 30 fps stream is a **lab result**, not a T4000 FACT — no derate from 1792 GB/s to 273. T4000 30 fps stays SPEC until Thor silicon.
 
 ## The kit
 
-| Box | Memory | Bandwidth | Power | Role |
-|---|---|---|---|---|
-| **Jetson Thor T5000** | 128 GB LPDDR5X unified | **273 GB/s** | 40–130 W | Camera, AD, live overlay, encode |
-| **RTX PRO 6000 Blackwell** | 96 GB GDDR7 ECC | **1792 GB/s** (~6.6× Thor) | 600 W | Quality, train, gen, offload |
-| Dual 6000 | 192 GB as **two pools** | no NVLink | ~1.2 kW | Independent cards, not one 192 GB GPU |
-| **NAS** | takes / splats / USD / ckpts | 10/25/100 GbE | — | Source of truth |
+Envelope id (what the log attributes derates to) and pack id (SMALL / LARGE weights) are separate fields. Defaults below; either is overridable.
 
-T4000 is the same **273 GB/s**, 64 GB, 70 W, 1× NVENC. Use it if the AD is 8–32B and the body must stay cooler. T5000 if you want 70B-class AD and 2× NVENC.
+| Box | Envelope | Memory | Bandwidth | Power | Pack / residency | Role |
+|---|---|---|---|---|---|---|
+| **Thor T4000** | `t4000` | 64 GB LPDDR5X unified | **273 GB/s** | 70 W / 90 W throttle | SMALL, **resident** | Production body. 1× NVENC. 30 fps design target (SPEC). |
+| **AGX Thor Dev Kit** | `t4000` until measured apart | 128 GB unified | **273 GB/s** | 40–130 W | SMALL, resident | Lab brick (T5000 module). Bandwidth-bound ~1× T4000; TPC-bound ×0.6; NVENC **2** not 1. |
+| **fractal1 RTX 3090** | `3090` | 24 GB + 16 GB host | 936 GB/s | 350 W | SMALL, **swap** | Local pipe. Not a T4000. Not a 30 fps host. Derates in AICamera `docs/3090-SIM.md`. |
+| **RunPod RTX PRO 6000 Blackwell Server 96 GB** | `6000` | 96 GB GDDR7 ECC | **1792 GB/s** | ~600 W | LARGE, **resident** | 30 fps all-perception-filters lab (~$2.09/hr). Same software as the body. |
+| **Truck PRO 6000** | `6000` until measured apart | 96 GB GDDR7 ECC | **1792 GB/s** (~6.6× Thor) | 600 W | not the live mix | Quality, train, gen, offload. |
+| Dual 6000 | `6000` | 192 GB as **two pools** | no NVLink | ~1.2 kW | — | Independent cards, not one 192 GB GPU |
+| **NAS** | — | takes / splats / USD / ckpts | 10/25/100 GbE | — | — | Source of truth |
 
-AGX Thor Developer Kit is the bring-up brick ($3,499–$5,499). Production is a T5000 SOM on a carrier with GMSL/HSB.
+T4000 is the default production module. T5000 if satellite encode will not stay camera-side inside the T4000 hybrid budget (1× NVENC, HQ 2× 4Kp30). AGX Thor Developer Kit is the bring-up brick ($3,499–$5,499).
+
+SAM 3.1 + VDA-L do **not** pack on T4000. 273 GB/s, not VRAM. LARGE weights stay on the 6000.
 
 ## Thor compute
 
