@@ -16,6 +16,28 @@ Cloud stand-in for the Thor **T4000** body while the SOM is still on order. Not 
 
 Cheapest Blackwell that was **HIGH** stock and ≥ T4000 on tensor/quant: **PRO 4500**. Cheaper FP4: PRO 4000 ($0.57, MEDIUM, 24 GB). Memory-envelope match (≥64 GB): RTX PRO 6000 Blackwell Server 96 GB at $2.09 (HIGH overall, LOW per DC).
 
+## Local Ampere brick (fractal1)
+
+RTX 3090 24 GB on `ssh fractal1`. HEVC pipe + FP16 nets. **Not** a T4000 TOPS proxy — no FP8/FP4, 936 GB/s vs 273, 24 GB vs 64 GB unified.
+
+Translation table (how to read 3090 numbers as T4000) lives in the hardware repo:
+
+`~/work/ClientProjects/AllSystemsGo/AICamera/docs/3090-SIM.md`
+
+Short form: CUDA-core filters ×0.13 · SAM2/ViT/prefill/decode ×0.30 · FP8/NVFP4 cannot · 24 GB fit ⇒ T4000 fit · 3× 4K NVENC is a T4000 HQ fail.
+
+## Next RunPod SKU (closer to T4000)
+
+No SKU is 6 TPC / 273 GB/s / 70 W. Rent by which lie you are correcting:
+
+| Job | Rent |
+|---|---|
+| FP8 / NVFP4 kernels (what the 3090 cannot do) | **RTX PRO 4000 Blackwell 24 GB** (~$0.57) or keep this **PRO 4500** |
+| 64 GB resident set (9B + klein + SAM2) | **RTX PRO 6000 Blackwell 96 GB** (~$2.09) |
+| Do not rent as a T4000 | Tesla T4, Ampere 3090/A40, Ada L40S |
+
+Keep `lduog58vatxh44` for the `/gpu` worker. Next dedicated T4000-shaped run is PRO 4000 (quant) or PRO 6000 (envelope).
+
 ## Admin
 
 Local only (`vite dev`). GitHub Pages SSG skips `/gpu`.
