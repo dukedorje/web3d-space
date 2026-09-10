@@ -4,6 +4,8 @@
  * with the component systems and resource handlers needed for Gaussian splats.
  */
 
+import { log } from '$lib/log';
+
 export type { AppBase, Entity } from 'playcanvas';
 
 export interface PlayCanvasApp {
@@ -27,6 +29,10 @@ export async function createPlayCanvasApp(opts: CreateAppOptions): Promise<PlayC
 	});
 
 	device.maxPixelRatio = opts.maxPixelRatio ?? Math.min(window.devicePixelRatio, 2);
+	log(
+		'info',
+		`gpu ${device.deviceType} maxTextureSize=${device.maxTextureSize} pixelRatio=${device.maxPixelRatio}`
+	);
 
 	const createOptions = new pc.AppOptions();
 	createOptions.graphicsDevice = device;

@@ -1,5 +1,6 @@
 import type { WorldDocument } from './document.js';
 import type { PlayCanvasApp } from '$lib/playcanvas/create-app.js';
+import { log } from '$lib/log';
 
 export async function mountWorld(pcApp: PlayCanvasApp, world: WorldDocument): Promise<void> {
 	const { pc, app } = pcApp;
@@ -13,24 +14,35 @@ export async function mountWorld(pcApp: PlayCanvasApp, world: WorldDocument): Pr
 		}
 	}
 
+	for (const asset of Object.values(assets)) {
+		log('info', `load ${asset.name} ${asset.getFileUrl() ?? asset.name}`);
+	}
+
 	await new Promise<void>((resolve, reject) => {
 		const failures: string[] = [];
 		const onAssetError = (err: unknown, asset: InstanceType<typeof pc.Asset>) => {
 			const url = asset.getFileUrl() ?? asset.name;
 			const why = err instanceof Error ? err.message : String(err);
 			failures.push(`${asset.name} (${url}): ${why}`);
-			console.error('[world] asset error', asset.name, url, err);
+			log('error', `asset ${asset.name} ${url} — ${why}`, err);
+		};
+		const onProgress = (asset: InstanceType<typeof pc.Asset>) => {
+			log('info', `ok ${asset.name}`);
 		};
 		app.assets.on('error', onAssetError);
 		const loader = new pc.AssetListLoader(Object.values(assets), app.assets);
+		loader.on('progress', onProgress);
 		loader.load((err: unknown, failed?: InstanceType<typeof pc.Asset>[]) => {
 			app.assets.off('error', onAssetError);
+			loader.off('progress', onProgress);
 			if (!err) {
+				log('info', `loaded ${Object.keys(assets).length} assets`);
 				resolve();
 				return;
 			}
 			const fromLoader = (failed ?? []).map((a) => `${a.name} (${a.getFileUrl() ?? '?'})`);
 			const detail = [...new Set([...failures, ...fromLoader])].join('; ') || String(err);
+			log('error', `AssetListLoader failed: ${detail}`);
 			reject(new Error(detail));
 		});
 	});
@@ -45,17 +57,24 @@ export async function mountWorld(pcApp: PlayCanvasApp, world: WorldDocument): Pr
 		app.scene.skybox = skybox;
 		app.scene.skyboxIntensity = 0.8;
 		app.scene.envAtlas = pc.EnvLighting.generateAtlas(lighting, { size: 256 });
+		log('info', `skybox from ${world.hdri} (${hdriTex.width}x${hdriTex.height})`);
+	} else {
+		log('warn', `HDRI loaded but no texture resource: ${world.hdri}`);
 	}
 
 	for (const spec of world.entities) {
 		const asset = assets[spec.id];
-		if (!asset?.resource?.instantiateRenderEntity) continue;
+		if (!asset?.resource?.instantiateRenderEntity) {
+			log('warn', `skip entity ${spec.id}: no renderable`);
+			continue;
+		}
 		const entity = asset.resource.instantiateRenderEntity();
 		entity.name = spec.id;
 		if (spec.position) entity.setLocalPosition(...spec.position);
 		if (spec.rotation) entity.setLocalEulerAngles(...spec.rotation);
 		if (spec.scale) entity.setLocalScale(...spec.scale);
 		app.root.addChild(entity);
+		log('info', `entity ${spec.id}`);
 	}
 
 	const key = world.lights?.find((l) => l.type === 'directional');

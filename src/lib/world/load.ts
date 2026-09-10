@@ -1,5 +1,6 @@
 import type { WorldDocument } from './document.js';
 import { WorldDocumentError } from './document.js';
+import { log } from '../log.js';
 
 export type AssetKind = 'hdri' | 'glb' | 'splat';
 
@@ -25,8 +26,10 @@ async function probe(fetchImpl: FetchLike, kind: AssetKind, url: string): Promis
 		throw new MissingAssetError(kind, url);
 	}
 	if (!res.ok) {
+		log('error', `HEAD ${kind} ${url} → ${res.status}`);
 		throw new MissingAssetError(kind, url);
 	}
+	log('info', `HEAD ${kind} ${url} → ${res.status}`);
 }
 
 /**

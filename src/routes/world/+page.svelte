@@ -4,6 +4,8 @@
 	import { WORLD_FIXTURE } from '$lib/world/fixture';
 	import { parseWorldDocument } from '$lib/world/document';
 	import { mountWorld, worldBounds } from '$lib/world/mount';
+	import { assertWorldAssetsAvailable } from '$lib/world/load';
+	import { log, onLog, type LogLine } from '$lib/log';
 	import LockInSwitch from '$lib/components/LockInSwitch.svelte';
 
 	let canvas: HTMLCanvasElement;
@@ -13,6 +15,8 @@
 	let pcState: PlayCanvasApp | null = null;
 	let debugInfo = $state('');
 	let showDebug = $state(false);
+	let logLines = $state<LogLine[]>([]);
+	const logOrigin = Date.now();
 
 	const world = parseWorldDocument(WORLD_FIXTURE);
 	const cam = world.cameras[0]!;
@@ -29,9 +33,18 @@
 	onMount(() => {
 		let destroyed = false;
 		let rafId = 0;
+		const stopLog = onLog((lines) => {
+			logLines = [...lines];
+		});
 
 		async function init() {
 			try {
+				loadStatus = 'Probing assets…';
+				log('info', 'probe HDRI + GLB');
+				await assertWorldAssetsAvailable(world);
+				log('info', 'probe ok');
+				if (destroyed) return;
+
 				loadStatus = 'Creating GPU…';
 				pcState = await createPlayCanvasApp({ canvas });
 				if (destroyed) {
@@ -143,6 +156,7 @@
 				canvas.focus();
 			} catch (err) {
 				error = err instanceof Error ? err.message : String(err);
+				log('error', error, err);
 				loading = false;
 			}
 		}
@@ -150,6 +164,7 @@
 		init();
 		return () => {
 			destroyed = true;
+			stopLog();
 			cancelAnimationFrame(rafId);
 			doCleanup();
 		};
@@ -179,8 +194,27 @@
 	· click to look · WASD · wheel speed · C debug
 </div>
 
-{#if showDebug}
-	<div class="fixed bottom-4 left-4 font-mono text-xs text-cyan-300">{debugInfo}</div>
+{#if loading || error || showDebug}
+	<ol
+		class="pointer-events-none fixed bottom-4 left-4 z-20 max-h-[40vh] max-w-[min(36rem,90vw)] overflow-hidden font-mono text-[11px] leading-5 text-cyan-200/90"
+	>
+		{#if showDebug && debugInfo}
+			<li class="text-cyan-300">{debugInfo}</li>
+		{/if}
+		{#each logLines.slice(-14) as line}
+			<li
+				class={line.level === 'error'
+					? 'text-red-400'
+					: line.level === 'warn'
+						? 'text-amber-300'
+						: 'text-cyan-400/90'}
+			>
+				<span class="font-numerals mr-2 text-cyan-600"
+					>{((line.t - logOrigin) / 1000).toFixed(1)}</span
+				>{line.msg}
+			</li>
+		{/each}
+	</ol>
 {/if}
 
 <LockInSwitch />
