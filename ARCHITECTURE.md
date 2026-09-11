@@ -67,8 +67,9 @@ Streaming and chunking are `add-splat-cache`.
 PlayCanvas remains the raster host. `/mesh` paints coverage cells
 (covered / thin as magenta ground tiles; unknown unpainted) in a
 different encoding from 802.11s link-strength (cyan / gold / grey).
-HUD completeness is the fixture grid score. Live GPS, DreamBall, and
-world-model overlay are other changes.
+HUD completeness is the fixture grid score. `/mesh` may also load a
+world-model document (HDRI + imported GLB) beside that paint; skip with
+`?noworld`. Live GPS and DreamBall are other changes.
 
 ## Out of this ADR
 

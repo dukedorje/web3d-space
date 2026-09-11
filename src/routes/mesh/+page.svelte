@@ -6,6 +6,11 @@
 	import { simulateMesh } from '$lib/mesh/simulate';
 	import { FIXTURE_WALK, paintGrid, samplesUntil, type CoverageGrid } from '$lib/mesh/coverage';
 	import { edgeStrength, type TopoGraph } from '$lib/mesh/graph';
+	import { loadMeshWorldDocument } from '$lib/mesh/world';
+	import { WorldDocumentError } from '$lib/world/document';
+	import { mountWorld, worldBounds } from '$lib/world/mount';
+
+	let { data }: { data: { skipWorld: boolean } } = $props();
 
 	let canvas: HTMLCanvasElement;
 	let pcState: PlayCanvasApp | null = null;
@@ -14,6 +19,9 @@
 	let coverage = $state<CoverageGrid>(paintGrid([]));
 	let elapsed = $state(0);
 	let error = $state<string | null>(null);
+	let worldError = $state<string | null>(null);
+	let worldLoading = $state(false);
+	let worldLabel = $state<string | null>(null);
 
 	onMount(() => {
 		let dead = false;
@@ -44,7 +52,7 @@
 				const camera = new pc.Entity('Camera');
 				camera.addComponent('camera', {
 					clearColor: new pc.Color(0.04, 0.045, 0.07),
-					farClip: 200
+					farClip: 2000
 				});
 				app.root.addChild(camera);
 				orbit = createOrbitCamera(canvas, camera, pc, {
@@ -53,9 +61,36 @@
 					distance: 28,
 					target: [0, 0.4, 0],
 					minDistance: 10,
-					maxDistance: 60
+					maxDistance: 400
 				});
 				scene = mountMeshScene(pcState);
+
+				if (!data.skipWorld) {
+					worldLoading = true;
+					try {
+						const world = await loadMeshWorldDocument();
+						if (dead) return;
+						if (world) {
+							await mountWorld(pcState, world);
+							if (dead) return;
+							worldLabel = world.entities[0]?.id ?? 'world';
+							const bounds = worldBounds(pcState);
+							const cam = camera.camera;
+							if (bounds && cam) {
+								cam.farClip = Math.max(500, (bounds.half[0] + bounds.half[1] + bounds.half[2]) * 8);
+							}
+						}
+					} catch (err) {
+						worldError =
+							err instanceof WorldDocumentError
+								? err.message
+								: err instanceof Error
+									? err.message
+									: String(err);
+					} finally {
+						worldLoading = false;
+					}
+				}
 			} catch (err) {
 				error = err instanceof Error ? err.message : String(err);
 			}
@@ -89,8 +124,9 @@
 		<p class="kicker">LIGHTNING MESH</p>
 		<h1>RADIO WORLD</h1>
 		<p class="lede">
-			Simulated <code>GET /api/radio</code> from the four-router 802.11s fleet. Directory gossips in,
-			then stations and HWMP paths. Magenta tiles are a recorded walk — not the cyan/gold links. Hill
+			Simulated <code>GET /api/radio</code> from the four-router 802.11s fleet. Directory gossips
+			in, then stations and HWMP paths. Magenta tiles are a recorded walk — not the cyan/gold links.
+			The XELA world document (HDRI + GLB) loads beside coverage; <code>?noworld</code> skips it. Hill
 			drops telemetry on the odd 8s — 404 is a normal state.
 		</p>
 	</header>
@@ -107,9 +143,24 @@
 				</span>
 			{/if}
 		</p>
+		<p class="world-status">
+			<span class="k">world</span>
+			{#if data.skipWorld}
+				<span class="meta">skipped</span>
+			{:else if worldLoading}
+				<span class="meta">loading HDRI + GLB…</span>
+			{:else if worldError}
+				<span class="fail">{worldError}</span>
+			{:else if worldLabel}
+				<span class="meta">{worldLabel}</span>
+			{:else}
+				<span class="meta">idle</span>
+			{/if}
+		</p>
 		{#if error}
 			<p class="fail">{error}</p>
-		{:else if graph.nodes.length === 0}
+		{/if}
+		{#if graph.nodes.length === 0}
 			<p class="quiet">waiting on CRDT gossip…</p>
 		{:else}
 			<ul>
@@ -217,6 +268,15 @@
 		display: block;
 		font-size: 1.4rem;
 		color: #e85aa8;
+	}
+	.world-status {
+		margin: 0 0 0.7rem;
+	}
+	.world-status .k {
+		display: block;
+		letter-spacing: 0.22em;
+		font-size: 0.62rem;
+		color: #22e0e2;
 	}
 	ul {
 		list-style: none;

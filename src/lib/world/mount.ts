@@ -1,4 +1,4 @@
-import type { WorldDocument } from './document.js';
+import { WorldDocumentError, type WorldDocument } from './document.js';
 import type { PlayCanvasApp } from '$lib/playcanvas/create-app.js';
 import { log } from '$lib/log';
 
@@ -43,7 +43,7 @@ export async function mountWorld(pcApp: PlayCanvasApp, world: WorldDocument): Pr
 			const fromLoader = (failed ?? []).map((a) => `${a.name} (${a.getFileUrl() ?? '?'})`);
 			const detail = [...new Set([...failures, ...fromLoader])].join('; ') || String(err);
 			log('error', `AssetListLoader failed: ${detail}`);
-			reject(new Error(detail));
+			reject(new WorldDocumentError(detail));
 		});
 	});
 
@@ -100,7 +100,14 @@ export function worldBounds(pcApp: PlayCanvasApp): {
 		maxY = -Infinity,
 		maxZ = -Infinity;
 	let found = false;
-	for (const render of app.root.findComponents('render') as Array<{ meshInstances?: Array<{ aabb: { getMin(): { x: number; y: number; z: number }; getMax(): { x: number; y: number; z: number } } }> }>) {
+	for (const render of app.root.findComponents('render') as Array<{
+		meshInstances?: Array<{
+			aabb: {
+				getMin(): { x: number; y: number; z: number };
+				getMax(): { x: number; y: number; z: number };
+			};
+		}>;
+	}>) {
 		for (const mi of render.meshInstances ?? []) {
 			const lo = mi.aabb.getMin();
 			const hi = mi.aabb.getMax();

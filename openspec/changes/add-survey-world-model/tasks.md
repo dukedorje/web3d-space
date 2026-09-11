@@ -1,9 +1,9 @@
 # Tasks
 
-- [ ] /mesh can load a world-model document (fixture GLB + HDRI)
-- [ ] Coverage paint remains when the world document is present
-- [ ] Missing asset fails visibly
-- [ ] Do not rasterize a NeRF MLP; do not train
+- [x] /mesh can load a world-model document (fixture GLB + HDRI)
+- [x] Coverage paint remains when the world document is present
+- [x] Missing asset fails visibly
+- [x] Do not rasterize a NeRF MLP; do not train
 
 Not owed here:
 
