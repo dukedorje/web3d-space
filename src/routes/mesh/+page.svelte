@@ -4,12 +4,14 @@
 	import { createOrbitCamera } from '$lib/playcanvas/orbit-camera';
 	import { mountMeshScene, type MeshScene } from '$lib/mesh/mount';
 	import { simulateMesh } from '$lib/mesh/simulate';
+	import { FIXTURE_WALK, paintGrid, samplesUntil, type CoverageGrid } from '$lib/mesh/coverage';
 	import { edgeStrength, type TopoGraph } from '$lib/mesh/graph';
 
 	let canvas: HTMLCanvasElement;
 	let pcState: PlayCanvasApp | null = null;
 	let scene: MeshScene | null = null;
 	let graph = $state<TopoGraph>({ nodes: [], edges: [] });
+	let coverage = $state<CoverageGrid>(paintGrid([]));
 	let elapsed = $state(0);
 	let error = $state<string | null>(null);
 
@@ -23,7 +25,8 @@
 			if (dead) return;
 			elapsed = performance.now() - origin;
 			graph = simulateMesh(elapsed).graph;
-			scene?.sync(graph);
+			coverage = paintGrid(samplesUntil(FIXTURE_WALK, elapsed));
+			scene?.sync(graph, coverage);
 			orbit?.update();
 			raf = requestAnimationFrame(tick);
 		}
@@ -86,12 +89,24 @@
 		<p class="kicker">LIGHTNING MESH</p>
 		<h1>RADIO WORLD</h1>
 		<p class="lede">
-			Simulated <code>GET /api/radio</code> from the four-router 802.11s fleet. Directory gossips
-			in, then stations and HWMP paths. Hill drops telemetry on the odd 8s — 404 is a normal state.
+			Simulated <code>GET /api/radio</code> from the four-router 802.11s fleet. Directory gossips in,
+			then stations and HWMP paths. Magenta tiles are a recorded walk — not the cyan/gold links. Hill
+			drops telemetry on the odd 8s — 404 is a normal state.
 		</p>
 	</header>
 	<aside>
 		<p class="clock font-numerals">{(elapsed / 1000).toFixed(1)}s</p>
+		<p class="coverage">
+			<span class="k">coverage</span>
+			<span class="pct font-numerals">{Math.round(coverage.completeness * 100)}%</span>
+			{#if coverage.covered === 0 && coverage.thin === 0}
+				<span class="meta">unknown</span>
+			{:else}
+				<span class="meta font-numerals">
+					{coverage.covered} covered · {coverage.thin} thin · {coverage.unknown} unknown
+				</span>
+			{/if}
+		</p>
 		{#if error}
 			<p class="fail">{error}</p>
 		{:else if graph.nodes.length === 0}
@@ -188,6 +203,20 @@
 		margin: 0 0 0.6rem;
 		font-size: 1.4rem;
 		color: #f5be4f;
+	}
+	.coverage {
+		margin: 0 0 0.7rem;
+	}
+	.coverage .k {
+		display: block;
+		letter-spacing: 0.22em;
+		font-size: 0.62rem;
+		color: #e85aa8;
+	}
+	.coverage .pct {
+		display: block;
+		font-size: 1.4rem;
+		color: #e85aa8;
 	}
 	ul {
 		list-style: none;

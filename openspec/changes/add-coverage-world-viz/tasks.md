@@ -1,10 +1,10 @@
 # Tasks
 
-- [ ] Coverage state on the /mesh graph (covered / thin / unknown)
-- [ ] Distinct from edgeStrength / link-strength bars
-- [ ] Fixture still boots with no coverage samples
-- [ ] Failed PlayCanvas adapter remains a visible error
-- [ ] Unit or route-level test that coverage state is present on the graph
+- [x] Coverage state on the /mesh graph (covered / thin / unknown)
+- [x] Distinct from edgeStrength / link-strength bars
+- [x] Fixture still boots with no coverage samples
+- [x] Failed PlayCanvas adapter remains a visible error
+- [x] Unit or route-level test that coverage state is present on the graph
 
 Not owed here:
 

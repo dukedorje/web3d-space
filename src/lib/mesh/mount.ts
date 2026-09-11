@@ -1,4 +1,5 @@
 import type { PlayCanvasApp } from '$lib/playcanvas/create-app.js';
+import type { CoverageGrid } from './coverage.js';
 import { edgeStrength, type TopoEdge, type TopoGraph, type TopoNode } from './graph.js';
 
 type Pc = typeof import('playcanvas');
@@ -9,6 +10,9 @@ const STRONG = [0.13, 0.88, 0.89] as const;
 const RELAY = [0.96, 0.75, 0.31] as const;
 const WEAK = [0.45, 0.5, 0.62] as const;
 const SELF = [0.96, 0.75, 0.31] as const;
+/** Ground tiles — not link cyan/gold/grey. */
+const COVERED = [0.91, 0.2, 0.62] as const;
+const THIN = [0.42, 0.1, 0.32] as const;
 
 function rgb(pc: Pc, c: readonly [number, number, number], a = 1) {
 	return new pc.Color(c[0], c[1], c[2], a);
@@ -36,7 +40,7 @@ function placeLink(entity: Entity, a: [number, number, number], b: [number, numb
 }
 
 export type MeshScene = {
-	sync: (graph: TopoGraph) => void;
+	sync: (graph: TopoGraph, coverage?: CoverageGrid) => void;
 	destroy: () => void;
 };
 
@@ -71,13 +75,16 @@ export function mountMeshScene(pcApp: PlayCanvasApp): MeshScene {
 
 	const nodeEnt = new Map<string, Entity>();
 	const linkEnt = new Map<string, Entity>();
+	const cellEnt = new Map<string, Entity>();
 	const mats = {
 		strong: mat(pc, STRONG, 0.8),
 		relay: mat(pc, RELAY, 0.55),
 		weak: mat(pc, WEAK, 0.25),
 		self: mat(pc, SELF, 1.1),
 		node: mat(pc, STRONG, 0.45),
-		dark: mat(pc, [0.18, 0.2, 0.26], 0.08)
+		dark: mat(pc, [0.18, 0.2, 0.26], 0.08),
+		covered: mat(pc, COVERED, 0.85),
+		thin: mat(pc, THIN, 0.35)
 	};
 
 	function ensureNode(node: TopoNode): Entity {
@@ -122,8 +129,31 @@ export function mountMeshScene(pcApp: PlayCanvasApp): MeshScene {
 		return e;
 	}
 
+	function ensureCell(
+		grid: CoverageGrid,
+		key: string,
+		x: number,
+		z: number,
+		covered: boolean
+	): Entity {
+		let e = cellEnt.get(key);
+		if (!e) {
+			e = new pc.Entity(`cov-${key}`);
+			e.addComponent('render', { type: 'box', material: covered ? mats.covered : mats.thin });
+			root.addChild(e);
+			cellEnt.set(key, e);
+		}
+		const span = grid.cellSize * 0.88;
+		e.setLocalPosition(x, 0.04, z);
+		e.setLocalScale(span, 0.05, span);
+		const render = e.render;
+		if (render) render.material = covered ? mats.covered : mats.thin;
+		e.enabled = true;
+		return e;
+	}
+
 	return {
-		sync(graph) {
+		sync(graph, coverage) {
 			const liveNodes = new Set(graph.nodes.map((n) => n.key));
 			for (const node of graph.nodes) ensureNode(node);
 			for (const [key, e] of nodeEnt) {
@@ -135,6 +165,19 @@ export function mountMeshScene(pcApp: PlayCanvasApp): MeshScene {
 			for (const edge of graph.edges) ensureLink(edge, graph);
 			for (const [key, e] of linkEnt) {
 				e.enabled = liveLinks.has(key);
+			}
+
+			const liveCells = new Set<string>();
+			if (coverage) {
+				for (const cell of coverage.cells) {
+					if (cell.state === 'unknown') continue;
+					const k = `${coverage.originX}:${coverage.originZ}:${cell.ix}:${cell.iz}`;
+					liveCells.add(k);
+					ensureCell(coverage, k, cell.x, cell.z, cell.state === 'covered');
+				}
+			}
+			for (const [key, e] of cellEnt) {
+				e.enabled = liveCells.has(key);
 			}
 		},
 		destroy() {
