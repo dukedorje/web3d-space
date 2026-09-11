@@ -6,8 +6,8 @@ Renderer ADR for this tree. Filmmaking product ground stays in
 Advise: `openspec/changes/add-browser-renderer/reviews/2026-09-08-advise.md`
 (Sol, accept).
 
-This file is why the renderer is shaped this way. Requirements live in
-`openspec/` (in-flight until fold).
+This file is why the renderer is shaped this way. Folded requirements
+live in `openspec/specs/`. In-flight work is `openspec/changes/`.
 
 ## Six calls
 
@@ -61,6 +61,14 @@ Already wired: `CameraFrame.sceneDepthMap` in
 
 Entities and splat chunks farther than their cutoff are not drawn.
 Streaming and chunking are `add-splat-cache`.
+
+## /mesh coverage paint
+
+PlayCanvas remains the raster host. `/mesh` paints coverage cells
+(covered / thin as magenta ground tiles; unknown unpainted) in a
+different encoding from 802.11s link-strength (cyan / gold / grey).
+HUD completeness is the fixture grid score. Live GPS, DreamBall, and
+world-model overlay are other changes.
 
 ## Out of this ADR
 
