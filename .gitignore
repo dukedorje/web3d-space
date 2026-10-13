@@ -39,6 +39,9 @@ storybook-static
 
 # Intention spawn scratch (advise / workers)
 .spawns/
+.worktrees/
+.omx/
+groups/*/inventory.json
 
 # Beads / Dolt files (added by bd init)
 .dolt/
